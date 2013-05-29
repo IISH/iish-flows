@@ -1,0 +1,12 @@
+Rem Set these according to the context of the host machine.
+
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<flow_home></flow_home>
+	<na></na>
+	<flow1>
+		<root></root>
+		<share></share>
+		<ftp></ftp>
+	</flow1>
+</config>
