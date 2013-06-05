@@ -1,10 +1,17 @@
 Rem start.bat
 Rem
-Rem Will iterate over the desired folder; take all subfolders; and for each kickstart the creation of an instruction
+Rem Will iterate over the desired folder; take all subfolders; and for each kickstart the creation of an instruction.
+Rem For example, if we have two sub folders:
+Rem \ROOT_FLOW2\folder_1
+Rem \ROOT_FLOW2\folder_2
+Rem Then there will be two independent calls:
+Rem ftp.bat folder_1
+Rem ftp.bat folder_2
 Rem
 Rem Usage:
 Rem start.bat [folder]
 
-%SORIMPORT_HOME%\src\main\global\run_app.groovy %ROOT_FLOW2% %SORIMPORT_HOME%\src\main\flow2\ftp.bat
+net use %SHARE_FLOW2%
 
-exit 0
+$files=Get-ChildItem $ROOT_FLOW2 | ?{ $_.PSIsContainer } | Select-Object FullName
+PS C:\Users\Administrator> forEach( $item in $files ) {echo $item}

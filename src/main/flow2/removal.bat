@@ -2,8 +2,8 @@ Rem Removal
 Rem Deletes all files on the disk, provided that is we find the same file in the Sor
 Rem
 Rem Usage:
-Rem removal.bat [optional datestamp yyyy-mm-dd]
-Rem If we have no datestamp parameter we will use today's date
+Rem removal.bat [optional foldername]
+Rem If we have no folder parameter we will use today's date
 
 Rem Settings
 set JAVA_OPTS=-Xmx3072M

@@ -8,11 +8,13 @@
 
 assert (args.length > 1)
 
+def SORIMPORT_HOME = System.getenv()['SORIMPORT_HOME'] ?: "."
+
 new File(args[0]).listFiles().each {
     if (it.isDirectory() && it.name[0] != '.') {
         String line = (args.length < 3) ? it.name : it.name + ' ' + args[2..-1].join(" ")
-        def ant = new AntBuilder()   // create an antbuilder
 
+        def ant = new AntBuilder()   // create an antbuilder
         try {
             ant.exec(outputproperty: "cmdOut",
                     errorproperty: "cmdErr",
@@ -25,7 +27,7 @@ new File(args[0]).listFiles().each {
            println(e.message)
         }
 
-        File f = new File( "log/flow2/${it.name}.log"  )
+        File f = new File(SORIMPORT_HOME, "log/flow2/${it.name}.log"  )
         println("Log to " + f.absolutePath)
         final FileOutputStream log = new FileOutputStream(f)
         log.write(ant.project.properties.cmdExit.getBytes())
