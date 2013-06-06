@@ -2,18 +2,22 @@
 #
 # ingest.files.sh
 #
-# Will iterate over the desired folder; take all subfolders; and for each kickstart the creation of an instruction.
+# Will iterate over the desired folder; take all sub folders; and for each kick start the creation of an instruction.
 
-net use %SHARE_FLOW2%
+flow_home=$(cygpath "$FLOW2_HOME")
+flow2_share=$(cygpath "$FLOW2_SHARE")
 
-for d in $SHARE_FLOW2/*
+# Enable share
+net use $FLOW2_SHARE
+
+for d in $flow2_share/*
 do
     for fileSet in $d/*
     do
         if [ -d $fileSet ] ; then
             if [ ! -f $fileSet/instruction.xml ] ; then
                 na=$(basename $d)
-                $SORIMPORT_HOME/src/main/flow2/ftp.sh $na $fileSet
+                $flow_home/src/main/flow2/ftp.sh $na $fileSet
             fi
         fi
     done
