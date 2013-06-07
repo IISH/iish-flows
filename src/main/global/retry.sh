@@ -20,18 +20,29 @@ if [ ! -f "$log_retry" ] ; then
 	exit 0
 fi
 
-ftp_script=$log_retry.ftpscript
-echo "option batch continue">$ftp_script
-echo "option confirm off">>$ftp_script
-echo "option transfer bina:ry">>$ftp_script
-echo "option reconnecttime 5">>$ftp_script
-echo "open $FTP_CONNECTION">>$ftp_script
 
-groovy $global_home/retry "$log_retry $ftp_script"
-if [ -f "$ftp_script" ] ; then
-	rm $log_retry
-	WinSCP /console /script="$(cygwin --windows $ftp_script)" /parameter $folder /log:"$(cygwin --windows $log_retry)"
+limit=5
+x=1
+while [ $x -le $limit ]
+do
+    ftp_script=$log_retry.ftpscript
+    echo "option batch continue">$ftp_script
+    echo "option confirm off">>$ftp_script
+    echo "option transfer bina:ry">>$ftp_script
+    echo "option reconnecttime 5">>$ftp_script
+    echo "open $FTP_CONNECTION">>$ftp_script
+
+    groovy $global_home/retry "$(cygwin --windows $log_retry) $(cygwin --windows $ftp_script)"
+
+    if [ -f "$ftp_script" ] ; then
+        rm "$log_retry"
+	    WinSCP /console /script="$(cygwin --windows $ftp_script)" /parameter $folder /log:"$(cygwin --windows $log_retry)"
+    else
+        exit 0
+    fi
+    x=$(( $x + 1 ))
+done
+
+if [[ $x == $limit ]] ; then
+    exit -1
 fi
-
-
-exit 0
