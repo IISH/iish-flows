@@ -46,6 +46,7 @@ do
     if [[ $rc == 0 ]] ; then
         break
     else
+		echo "Error in ftp upload."
         x=$(( $x + 1 ))
     fi
 done
