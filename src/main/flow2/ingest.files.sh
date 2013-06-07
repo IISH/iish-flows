@@ -14,6 +14,9 @@ do
     for fileSet in $d/*
     do
     	na=$(basename $d)
-    	$flow_home/src/main/flow2/ftp.sh $na $fileSet
+    	$flow_home/src/main/flow2/ingest.file.sh $na $fileSet
     done
 done
+
+
+exit 0

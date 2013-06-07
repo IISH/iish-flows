@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# ingest.files.sh
+# remove.files.sh
 #
-# Will iterate over the desired folder; take all sub folders; and for each kick start the creation of an instruction.
+# Will iterate over the desired folder; take all sub folders; and for each kick start the remove file procedure.
 
 source $FLOW_HOME/config.sh
 
@@ -14,7 +14,7 @@ do
     for fileSet in $d/*
     do
     	na=$(basename $d)
-    	$flow_home/src/main/flow2/ftp.sh $na $fileSet
+    	$flow_home/src/main/flow2/remove.file.sh $na $fileSet
     done
 done
 
