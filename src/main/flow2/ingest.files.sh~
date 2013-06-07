@@ -4,7 +4,7 @@
 #
 # Will iterate over the desired folder; take all sub folders; and for each kick start the creation of an instruction.
 
-source $FLOW_HOME/config.sh
+source ../../../config.sh
 
 # Enable share
 net use $FLOW2_SHARE

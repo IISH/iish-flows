@@ -13,9 +13,10 @@ int count = 0
 String file
 log.eachLine {
 
+    // . 2012-06-27 01:23:10.112 File: "masters/usercopies/30051000165578.JPG"
     String line = (it.length() > 26) ? it.substring(26) : it
     // Get the file: File, for example:
-    // . 2012-06-27 01:23:10.112 File: "masters/usercopies/30051000165578.JPG"
+    // File: "masters/usercopies/30051000165578.JPG"
     if (line.startsWith("File: ")) file = line.substring(6)
     if (line.startsWith("Error transferring file")) {
         println("Re-put " + file)
