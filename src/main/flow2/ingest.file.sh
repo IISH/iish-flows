@@ -7,13 +7,13 @@
 
 na=$1
 fileSet=$2
-source $FLOW_HOME/config.sh
+source $FLOWS_HOME/config.sh
 fileSet_windows=$(cygpath --windows $fileSet)
 folder=$(basename $fileSet)
-log_files=/var/log/flow2/files.$folder.$datestamp.log
-log_instruction=/var/log/flow2/instruction.$folder.$datestamp.log
-log_retry=/var/log/flow2/ftp.retry.$folder.$datestamp.log
-ftp_script_base=/var/log/flow2/ftp.$folder.$datestamp
+log_files=$flows_log/flow2/files.$folder.$datestamp.log
+log_instruction=$flows_log/flow2/instruction.$folder.$datestamp.log
+log_retry=$flows_log/flow2/ftp.retry.$folder.$datestamp.log
+ftp_script_base=$flows_log/flow2/ftp.$folder.$datestamp
 
 if [ ! -d "$fileSet" ] ; then
 	echo "No fileSet found: $fileSet"

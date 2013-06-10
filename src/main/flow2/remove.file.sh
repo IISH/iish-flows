@@ -8,7 +8,7 @@
 
 na=$1
 fileSet=$2
-source $FLOW_HOME/config.sh
+source $FLOWS_HOME/config.sh
 fileSet_windows=$(cygpath --windows $fileSet)
 folder=$(basename $fileSet)
 
@@ -23,7 +23,7 @@ if [ ! -f "$file_instruction" ] ; then
 	exit 0
 fi
 
-report=/var/log/flow2/remove.file.$folder.$datestamp.log
+report=$flows_log/flow2/remove.file.$folder.$datestamp.log
 groovy $flow2_home/remove.file.groovy "$file_instruction" > $report
 count=$(find $fileSet -type c | wc -l)
 if [[ $count == 1 ]] ; then

@@ -4,7 +4,7 @@
 #
 # Will iterate over the desired folder; take all sub folders; and for each kick start the remove file procedure.
 
-source $FLOW_HOME/config.sh
+source $FLOWS_HOME/config.sh
 
 # Enable share
 net use $FLOW2_SHARE
@@ -14,7 +14,7 @@ do
     for fileSet in $d/*
     do
     	na=$(basename $d)
-    	$flow_home/src/main/flow2/remove.file.sh $na $fileSet
+    	$FLOWS_HOME/src/main/flow2/remove.file.sh $na $fileSet
     done
 done
 

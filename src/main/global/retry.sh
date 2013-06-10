@@ -12,7 +12,7 @@
 
 log_retry=$1
 fileSet=$2
-source $FLOW_HOME/config.sh
+source $FLOWS_HOME/config.sh
 folder=$(basename $fileSet)
 
 if [ ! -f "$log_retry" ] ; then
