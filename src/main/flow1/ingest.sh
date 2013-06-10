@@ -7,6 +7,13 @@
 
 na=$1
 fileSet=$2
+log=$flows_log/flow1/ingest.$datestamp.log
+
+net use $FLOW1_SHARE
+if [ ! -d $flow1_share_path ] ; then
+	echo "Cannot connect to share $FLOW1_HOME">>$log
+	exit -1
+fi
 
 archiveID=$(basename $fileSet)
 ftp_script=$fileSet/$archiveID.lftp

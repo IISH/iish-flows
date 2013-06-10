@@ -27,11 +27,10 @@ do
     WinSCP /console /script="$(cygpath --windows $ftp_script)" /log:"$(cygpath --windows $log)"
     rc=$?
     if [[ $rc == 0 ]] ; then
-        rm -f "$ftp_script"
         exit 0
     fi
 done
 
-echo "FTP failed for $to times in a row."
+echo "FTP failed for $to times in a row.">>$log
 rm -f "$ftp_script"
 exit -1

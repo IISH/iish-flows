@@ -14,6 +14,12 @@ report=$fileSet/$archiveID.report.txt
 log=$fileSet/$archiveID.log
 cf=$fileSet/$archiveID.concordanceValidWithPID.csv
 
+net use $FLOW1_SHARE
+if [ ! -d $flow1_share_path ] ; then
+	echo "Cannot connect to share $FLOW1_HOME">>$log
+	exit -1
+fi
+
 echo $(date)>$log
 echo "Start validation">>$log
 
