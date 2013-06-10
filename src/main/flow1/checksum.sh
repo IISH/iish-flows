@@ -1,8 +1,8 @@
 #!/bin/bash
 
-scripts=$scripts
-source $scripts/shared/parameters.sh
-fileSet=$fileSet
+na=$1
+fileSet=$2
+source $FLOWS_HOME/config.sh
 archiveID=$(basename $fileSet)
 report=$fileSet/$archiveID.report.checksum.txt
 log=$fileSet/$archiveID.log
@@ -19,8 +19,8 @@ backup=$fileSet/.checksum.md5
 if [ ! -f $backup ] ; then
     cp $file $backup
 fi
-tr -d '\r' < $file > /tmp/t
-mv /tmp/t $file
+tr -d '\r' < $file > /tmp/$archiveID
+mv /tmp/$archiveID $file
 cd $fileSet
 
 md5sum --check $file > $report

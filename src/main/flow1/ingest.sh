@@ -1,16 +1,15 @@
 #!/bin/bash
 #
-# StagingFileIngestConcordance/ingest.sh
+# ingest.sh
 #
 # Add Instruction
-# Prepare a mets document
 #
-scripts=$scripts
-source $scripts/shared/parameters.sh
-fileSet=$fileSet
+
+na=$1
+fileSet=$2
+
 archiveID=$(basename $fileSet)
-ftpScript=$fileSet/$archiveID.lftp
-fileSetMets=$fileSet.mets
+ftp_script=$fileSet/$archiveID.lftp
 log=$fileSet/$archiveID.log
 echo $(date)>$log
 echo "Start preparing ingest...">>$log
@@ -22,6 +21,5 @@ if [ ! -f $cf ] ; then
     exit -1
 fi
 
-source $scripts/pmq-agents-available/StagingfileConcordance/ingest.files.sh
-source $scripts/pmq-agents-available/StagingfileConcordance/ingest.pids.sh
-#source $scripts/pmq-agents-available/StagingfileConcordance/ingest.mets.sh
+source $flow2_home/ingest.files.sh
+source $flow2_home/ingest.pids.sh
