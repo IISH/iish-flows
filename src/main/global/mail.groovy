@@ -11,10 +11,10 @@ m.eachLine {
 	message+='\n'
 }
 
-subject = "Sor import"
 fromAddress = args[1]
 toAddress = args[2]
-host = args[3]
+subject = args[3]
+host = args[4]
 port = "25"
 
 Properties mprops = new Properties()
@@ -34,8 +34,6 @@ while (tok.hasMoreElements()) {
 InternetAddress[] to = new InternetAddress[emailTos.size()]
 to = (InternetAddress[]) emailTos.toArray(to)
 msg.setRecipients(MimeMessage.RecipientType.TO, to)
-InternetAddress fromAddr = new InternetAddress(fromAddress)
-msg.setFrom(fromAddr)
 msg.setFrom(new InternetAddress(fromAddress))
 msg.setSubject(subject)
 msg.setText(message)
