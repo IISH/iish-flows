@@ -24,8 +24,9 @@ if [ ! -f "$file_instruction" ] ; then
 	exit 0
 fi
 
-groovy $flow2_home/remove.file.groovy "$file_instruction" >> $log
-count=$(find $fileSet -type c | wc -l)
+report=$log.report
+groovy $flow2_home/remove.file.groovy "$file_instruction" > $report
+count=$(find $fileSet -type f | wc -l)
 if [[ $count == 1 ]] ; then
 	history=$flow2_share_path/.history/$fileSet
 	mkdir -p $history
