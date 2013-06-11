@@ -1,8 +1,10 @@
 #!/bin/bash
 #
-# start.sh
+# startup.sh
 #
 # Iterates over all folders and looks for a csv file to validate, create an instruction; and produce mets
+
+source $FLOWS_HOME/config.sh
 
 for project in $FLOW1_SHARE/*
 do
