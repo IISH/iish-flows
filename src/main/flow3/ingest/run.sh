@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ingest.file.sh
+# run.sh
 #
 # Collects all folders under the fileSet.
 # For each folder creates a manifest and UDF image
@@ -17,7 +17,7 @@
 # /a/b/BULK23456/instruction.xml
 #
 # Usage:
-# ingest.files.sh [na] [folder name] [log]
+# file.sh [na] [folder name] [log]
 
 na=$1
 fileSet=$2
@@ -60,7 +60,7 @@ do
         droid.bat -q -p "$profile" -a $(cygpath --windows "$d") -R>>$log
         droid.bat -q -p "$profile" -e $manifest>>$log
         rm "$d/profile.droid"
-		groovy $global_home/removePath.groovy "$manifest" "$folder"
+		groovy removePath.groovy "$manifest" $(cygpath --windows "$d")
     fi
 done
 
@@ -89,9 +89,6 @@ rc=$?
 if [[ $rc != 0 ]] ; then
     exit -1
 fi
-
-echo "ok"
-exit 0
 
 # Produce instruction and upload the files
 groovy $(cygpath --windows "$global_home/instruction.groovy") -na $na -fileSet "$fileSet_windows" -autoIngestValidInstruction false -label "$datestamp UDF image $folder.$subfolder $flow3_client" -notificationEMail $flow3_notificationEMail>>$log

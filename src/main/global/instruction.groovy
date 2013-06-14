@@ -7,11 +7,13 @@ class SorInstruction {
     def files = 0
     private def mimeRepository = [:]
     private MessageDigest digest = MessageDigest.getInstance("MD5")
+    private boolean recurse = false
 
     public SorInstruction(def args) {
         orAttributes = args
         println("Loaded instruction class with arguments:")
         println(orAttributes)
+        recurse = ( orAttributes.recurse == "true")
 
         def file = new File("src/main/global/contenttype.txt")
         assert file.exists()
@@ -45,7 +47,7 @@ class SorInstruction {
     private def getFolders(File folder, def location, def out) {
         if (folder.name[0] != '.') {
             for (File file : folder.listFiles()) {
-                if (file.isDirectory()) {
+                if (recurse && file.isDirectory()) {
                     getFolders(file, location + "/" + file.name, out)
                 } else {
                     out << writeFile(file, location)
@@ -84,7 +86,7 @@ class SorInstruction {
     private def generateMD5(final file) {
         Date start = new Date()
         digest.reset()
-        file.withInputStream() {is ->
+        file.withInputStream() { is ->
             byte[] buffer = new byte[8192]
             int read
             while ((read = is.read(buffer)) > 0) {

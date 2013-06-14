@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ingest.pids.sh
+# pid.sh
 #
 # Declare and bind our ObjId PIDs
 #

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# StagingFileIngestConcordance/ingest.files.sh
+# StagingFileIngestConcordance/file.sh
 #
 # Produce validation
 # Add Instruction
@@ -23,7 +23,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 echo "Create instruction for our files">>$log
-php $flow1_home/csv.php -f $(cygpath --windows $cf) -n $na -h "access='restricted' contentType='image/tiff' autoIngestValidInstruction='false'"
+php csv.php -f $(cygpath --windows $cf) -n $na -h "access='restricted' contentType='image/tiff' autoIngestValidInstruction='false'"
 if [ ! -f $fileSet/instruction.xml ] ; then
     echo "Instruction not found.">>$log
     exit -1

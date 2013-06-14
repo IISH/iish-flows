@@ -1,15 +1,15 @@
 #!/bin/bash
 #
-# ingest.sh
+# run.sh
 #
 # Add Instruction
 #
 
 na=$1
 fileSet=$2
+log=$3
 source $FLOWS_HOME/config.sh
 fileSet_windows=$(cygpath --windows $fileSet)
-log=$flows_log/flow1/ingest.$datestamp.log
 
 net use $FLOW1_SHARE
 if [ ! -d $flow1_share_path ] ; then
@@ -30,5 +30,5 @@ if [ ! -f $cf ] ; then
     exit -1
 fi
 
-source $flow2_home/ingest.files.sh
-source $flow2_home/ingest.pids.sh
+source file.sh
+source pid.sh

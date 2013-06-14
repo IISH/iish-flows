@@ -2,10 +2,10 @@
 
 na=$1
 fileSet=$2
+log=$3
 source $FLOWS_HOME/config.sh
 archiveID=$(basename $fileSet)
 report=$fileSet/$archiveID.report.checksum.txt
-log=$fileSet/$archiveID.log
 
 # Remove DOS \r
 file=$fileSet/checksum.md5

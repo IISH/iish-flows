@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# validate.sh
+# startup.sh
 #
 # Produce validation
 # Add Instruction
@@ -8,10 +8,10 @@
 
 na=$1
 fileSet=$2
+log=$3
 source $FLOWS_HOME/config.sh
 archiveID=$(basename $fileSet)
 report=$fileSet/$archiveID.report.txt
-log=$fileSet/$archiveID.log
 cf=$fileSet/$archiveID.concordanceValidWithPID.csv
 
 net use $FLOW1_SHARE

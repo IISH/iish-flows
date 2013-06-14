@@ -4,7 +4,7 @@
 # When we find a match, remove the file.
 # And when all files are gone, remove the fileSet
 #
-# Usage: remove.file.sh [fileSet]
+# Usage: run.sh [fileSet]
 
 na=$1
 fileSet=$2
@@ -25,7 +25,7 @@ if [ ! -f "$file_instruction" ] ; then
 fi
 
 report=$log.report
-groovy $flow2_home/remove.file.groovy "$file_instruction" > $report
+groovy $flow2_home/remove/remove.file.groovy "$file_instruction" > $report
 count=$(find $fileSet -type f | wc -l)
 if [[ $count == 1 ]] ; then
 	history=$flow2_share_path/.history/$fileSet
