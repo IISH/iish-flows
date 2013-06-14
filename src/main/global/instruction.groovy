@@ -13,9 +13,9 @@ class SorInstruction {
         orAttributes = args
         println("Loaded instruction class with arguments:")
         println(orAttributes)
-        recurse = ( orAttributes.recurse == "true")
+        recurse = (Boolean.parseBoolean(orAttributes.recurse))
 
-        def file = new File("src/main/global/contenttype.txt")
+        def file = new File(System.getenv("FLOWS_HOME"), "src/main/global/contenttype.txt")
         assert file.exists()
         file.eachLine {
             final String[] split = it.split(",")

@@ -56,11 +56,12 @@ do
 		mkdir -p "$fileSet/.level1"
 		subfolder=$(basename $d)
         profile=$(cygpath --windows "$d/profile.droid")
-		manifest=$(cygpath --windows "$fileSet/.level1/$folder.$subfolder.csv")
+        manifest="$fileSet/.level1/$folder.$subfolder.csv"
         droid.bat -q -p "$profile" -a $(cygpath --windows "$d") -R>>$log
-        droid.bat -q -p "$profile" -e $manifest>>$log
+        droid.bat -q -p "$profile" -e "$(cygpath --windows "$manifest")">>$log
         rm "$d/profile.droid"
-		groovy removePath.groovy "$manifest" $(cygpath --windows "$d")
+		groovy removePath.groovy "$manifest" $(cygpath --windows "$d")>>$manifest.tmp
+		mv $manifest.tmp $manifest
     fi
 done
 
