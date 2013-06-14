@@ -11,30 +11,27 @@ do
     flow_folder=$(basename $flow)
     for command_folder in $flow/*
     do
-        if [ -d $command_folder ] ; then
-            run_script=$command_folder/run.sh
-            if [ -f $run_script ] ; then
-                hotfolders=""
-                for hotfolder in $hotfolders
+        run_script=$command_folder/run.sh
+        if [ -f $run_script ] ; then
+            key=$flow_folder"_hotfolders"
+            hotfolders=$(eval "echo \$$key")
+            for hotfolder in "$hotfolders"
+            do
+                for na in $hotfolder/*
                 do
-                    for na in $hotfolder/*
+                    for fileSet in $na/*
                     do
-                        for fileSet in $na/*
-                        do
-                            if [ -d $fileSet ] ; then
-                                for command in "checksum validate ingest remove"
-                                do
-                                    if [ -f "$fileSet/$command.txt" ] ; then
-                                        rm -f "$fileSet/$command.txt"
-                                        cd $command_folder
-                                        ./run.sh $(basename $na) "$fileSet" "$log"
-                                    fi
-                                done
+                        if [ -d $fileSet ] ; then
+                            command=$(basename $command_folder)
+                            if [ -f "$fileSet/$command.txt" ] ; then
+                                rm -f "$fileSet/$command.txt"
+                                cd $command_folder
+                                ./run.sh $(basename $na) "$fileSet" "/var/log/$flow_folder/$command_folder.$datestamp.log"
                             fi
-                        done
+                        fi
                     done
                 done
-            fi
+            done
         fi
     done
 done
