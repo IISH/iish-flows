@@ -7,6 +7,8 @@
 
 na=$1
 fileSet=$2
+source $FLOWS_HOME/config.sh
+fileSet_windows=$(cygpath --windows $fileSet)
 log=$flows_log/flow1/ingest.$datestamp.log
 
 net use $FLOW1_SHARE

@@ -2,7 +2,7 @@
 #
 # startup.sh
 #
-# Iterates over all folders and looks for a csv file to validate, create an instruction; and produce mets
+# Iterates over all folders and looks for a csv file to validate, create an instruction.
 
 source $FLOWS_HOME/config.sh
 
