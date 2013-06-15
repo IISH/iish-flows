@@ -11,7 +11,7 @@ fileSet=$2
 log=$3
 source $FLOWS_HOME/config.sh
 fileSet_windows=$(cygpath --windows $fileSet)
-folder=$(basename $fileSet)
+archiveID=$(basename $fileSet)
 
 if [ ! -d "$fileSet" ] ; then
 	echo "No fileSet found: $fileSet">>$log
@@ -28,7 +28,7 @@ report=$log.report
 groovy $flow2_home/remove/remove.file.groovy "$file_instruction" > $report
 count=$(find $fileSet -type f | wc -l)
 if [[ $count == 1 ]] ; then
-	history=$flow2_share_path/.history/$folder
+	history=$flow2_share_path/.history/$archiveID
 	mkdir -p $history
 	mv $fileSet $history
 fi

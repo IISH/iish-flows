@@ -21,6 +21,4 @@ if [ ! -f $backup ] ; then
 fi
 tr -d '\r' < $file > /tmp/$archiveID
 mv /tmp/$archiveID $file
-cd $fileSet
-
 md5sum --check $file > $report

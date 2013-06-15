@@ -21,7 +21,7 @@ echo "close">>$ftp_script
 echo "exit">>$ftp_script
 
 to=10
-for i in {1..$to}
+for i in $(seq 1 $to)
 do
     echo "Ftp files... attempt $i of $to">>$log
     WinSCP /console /script="$(cygpath --windows $ftp_script)" /log:"$(cygpath --windows $log)"

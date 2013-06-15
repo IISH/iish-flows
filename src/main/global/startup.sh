@@ -26,7 +26,7 @@ do
                             if [ -f "$fileSet/$command.txt" ] ; then
                                 rm -f "$fileSet/$command.txt"
                                 cd $command_folder
-                                $run_script $(basename $na) "$fileSet" "/var/log/$flow_folder/$command_folder.$datestamp.log"
+                                $run_script "$command_folder" $(basename $na) "$fileSet" "/var/log/$flow_folder/$command_folder.$datestamp.log" &
                             fi
                         fi
                     done
