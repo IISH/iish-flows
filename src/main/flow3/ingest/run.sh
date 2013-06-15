@@ -21,10 +21,11 @@
 
 na=$1
 fileSet=$2
-log=$3
+work=$3
 source $FLOWS_HOME/config.sh
-fileSet_windows=$(cygpath --windows $fileSet)
 archiveID=$(basename $fileSet)
+fileSet_windows=$(cygpath --windows $fileSet)
+log=$work/$datestamp.log
 ftp_script_base=$flows_log/flow3/ftp.$archiveID.$datestamp
 GiB=$(echo "(2^30)" | bc)
 BlockLimit=128
@@ -59,9 +60,9 @@ do
         manifest="$fileSet/.level1/$archiveID.$subfolder.csv"
         droid.bat -q -p "$profile" -a $(cygpath --windows "$d") -R>>$log
         droid.bat -q -p "$profile" -e "$(cygpath --windows "$manifest")">>$log
-        rm "$d/profile.droid"
-		groovy removePath.groovy "$manifest" $(cygpath --windows "$d")>>$manifest.tmp
-		mv $manifest.tmp $manifest
+		groovy removePath.groovy "$manifest" $(cygpath --windows "$d")
+		cp $manifest $d/
+		rm "$d/profile.droid"
     fi
 done
 
@@ -70,10 +71,10 @@ for d in $fileSet/*
 do
     if [ -d $d ] ; then
         subfolder=$(basename $d)
-        # See Oscdimg Command-Line Options at technet.microsoft.com/en-us/library/cc749036(v=ws.10).aspx
 		source=$(cygpath --windows "$d")
 		target=$(cygpath --windows "$fileSet/$archiveID.$subfolder.iso")
-		oscdimg.exe -udfver102 -u2 -l$archiveID.$subfolder -h -w4 $source $target>>$log
+        # See Oscdimg Command-Line Options at technet.microsoft.com/en-us/library/cc749036(v=ws.10).aspx
+		oscdimg.exe -udfver102 -u2 -uf -l$archiveID.$subfolder -h -w4 $source $target>>$log
         rc=$?
         if [[ $rc != 0 ]] ; then
             echo "There were errors when creating the image for $d">>$log

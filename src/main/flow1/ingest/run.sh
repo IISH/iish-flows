@@ -7,9 +7,11 @@
 
 na=$1
 fileSet=$2
-log=$3
+work=$3
 source $FLOWS_HOME/config.sh
+archiveID=$(basename $fileSet)
 fileSet_windows=$(cygpath --windows $fileSet)
+log=$work/$datestamp.log
 
 net use $FLOW1_SHARE
 if [ ! -d $flow1_share_path ] ; then

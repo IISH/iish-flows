@@ -7,10 +7,11 @@
 
 na=$1
 fileSet=$2
-log=$3
+work=$3
 source $FLOWS_HOME/config.sh
-fileSet_windows=$(cygpath --windows $fileSet)
 archiveID=$(basename $fileSet)
+fileSet_windows=$(cygpath --windows $fileSet)
+log=$work/$datestamp.log
 ftp_script_base=$flows_log/flow2/ftp.$archiveID.$datestamp
 
 if [ ! -d "$fileSet" ] ; then

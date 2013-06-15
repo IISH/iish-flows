@@ -25,8 +25,10 @@ do
                             command=$(basename $command_folder)
                             if [ -f "$fileSet/$command.txt" ] ; then
                                 rm -f "$fileSet/$command.txt"
+                                work="$fileSet/.$command"
+                                mkdir "$work"
                                 cd $command_folder
-                                $run_script "$command_folder" $(basename $na) "$fileSet" "$fileSet/$(basename $fileSet).$command.$datestamp.log" &
+                                $run_script "$command_folder" $(basename $na) "$fileSet" "$work" &
                             fi
                         fi
                     done

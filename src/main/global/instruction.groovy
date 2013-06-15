@@ -59,6 +59,7 @@ class SorInstruction {
     private def writeFile(File f, def folder) {
 
         if (f.name.equals("instruction.xml")) return
+        if (f.name[0] != '.') return
 
         int i = f.name.lastIndexOf('.')
         def extension = (i == -1 || i == f.name.length() - 1) ? null : f.name.substring(i + 1)
