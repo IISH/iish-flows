@@ -27,7 +27,7 @@ fi
 
 # Upload the files
 ftp_script=$ftp_script_base.files.txt
-$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror $fileSet_windows $archiveID" "$log"
+$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|archiveID.*\" $fileSet_windows $archiveID" "$log"
 rc=$?
 if [[ $rc != 0 ]] ; then
     exit -1

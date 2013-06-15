@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# StagingFileIngestConcordance/file.sh
+# file.sh
 #
-# Produce validation
+# Upload files
 # Add Instruction
 #
 
@@ -15,7 +15,7 @@ mv $fileSet/jpeg $fileSet/.level1
 mv $fileSet/tiff $fileSet/Tiff
 
 # Upload the files
-$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror $fileSet_windows $archiveID" "$log_files"
+$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|*/\;archiveID.*\" $fileSet_windows $archiveID" "$log_files"
 rc=$?
 mv $fileSet/.level1 $fileSet/Jpeg
 if [[ $rc != 0 ]] ; then

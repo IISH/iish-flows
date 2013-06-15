@@ -84,7 +84,7 @@ done
 
 # Upload the files
 ftp_script=$ftp_script_base.files.txt
-$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|*/\" $fileSet_windows $archiveID" "$log"
+$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|*/\;archiveID.*\" $fileSet_windows $archiveID" "$log"
 $global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|*/\" $fileSet_windows\\.level1 $archiveID/.level1" "$log"
 $global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|*/\" $fileSet_windows\\.level2 $archiveID/.level2" "$log"
 $global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|*/\" $fileSet_windows\\.level3 $archiveID/.level3" "$log"
