@@ -5,7 +5,6 @@
 # ftp with the desired action
 #
 # Usage: ftp.sh [script name] [put command] [log file]
-
 ftp_script=$1
 put=$2
 log=$3

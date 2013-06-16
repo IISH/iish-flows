@@ -19,21 +19,11 @@
 # Usage:
 # file.sh [na] [folder name] [log]
 
-na=$1
-fileSet=$2
-work=$3
-source $FLOWS_HOME/config.sh
-archiveID=$(basename $fileSet)
-fileSet_windows=$(cygpath --windows $fileSet)
-log=$work/$datestamp.log
-ftp_script_base=$flows_log/flow3/ftp.$archiveID.$datestamp
+source $FLOWS_HOME/setup.sh "$@"
+
 GiB=$(echo "(2^30)" | bc)
 BlockLimit=128
-
-if [ ! -d "$fileSet" ] ; then
-	echo "No fileSet found: $fileSet">>$log
-	exit 0
-fi
+ftp_script_base=$work/ftp.$archiveID.$datestamp
 
 ok=true
 for d in $fileSet/*

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# file.sh
+# /ingest/file.sh
 #
 # Upload files
 # Add Instruction
@@ -15,7 +15,8 @@ mv $fileSet/jpeg $fileSet/.level1
 mv $fileSet/tiff $fileSet/Tiff
 
 # Upload the files
-$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|*/\;archiveID.*\" $fileSet_windows $archiveID" "$log_files"
+ftp_script=$work/$archiveID.txt
+$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|.log/\" $fileSet_windows $archiveID" "$log_files"
 rc=$?
 mv $fileSet/.level1 $fileSet/Jpeg
 if [[ $rc != 0 ]] ; then

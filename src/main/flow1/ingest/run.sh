@@ -1,30 +1,14 @@
 #!/bin/bash
 #
-# run.sh
+# /ingest/run.sh
 #
-# Add Instruction
+# Starts the ingest and objid pid bindings
 #
+# Usage: run.sh [na] [fileSet] [work directory]
 
-na=$1
-fileSet=$2
-work=$3
-source $FLOWS_HOME/config.sh
-archiveID=$(basename $fileSet)
-fileSet_windows=$(cygpath --windows $fileSet)
-log=$work/$datestamp.log
+source $FLOWS_HOME/setup.sh "$@"
 
-net use $FLOW1_SHARE
-if [ ! -d $flow1_share_path ] ; then
-	echo "Cannot connect to share $FLOW1_HOME">>$log
-	exit -1
-fi
-
-archiveID=$(basename $fileSet)
-ftp_script=$fileSet/$archiveID.lftp
-log=$fileSet/$archiveID.log
-echo $(date)>$log
 echo "Start preparing ingest...">>$log
-
 cf=$fileSet/$archiveID.concordanceValidWithPID.csv
 if [ ! -f $cf ] ; then
     echo "Error... did not find $cf">>$log

@@ -5,19 +5,9 @@
 # Usage:
 # ftp.sh [na] [folder name]
 
-na=$1
-fileSet=$2
-work=$3
-source $FLOWS_HOME/config.sh
-archiveID=$(basename $fileSet)
-fileSet_windows=$(cygpath --windows $fileSet)
-log=$work/$datestamp.log
-ftp_script_base=$flows_log/flow2/ftp.$archiveID.$datestamp
+source $FLOWS_HOME/setup.sh "$@"
 
-if [ ! -d "$fileSet" ] ; then
-	echo "No fileSet found: $fileSet">>$log
-	exit 0
-fi
+ftp_script_base=$work/ftp.$archiveID.$datestamp
 
 file_instruction=$fileSet/instruction.xml
 if [ -f "$file_instruction" ] ; then
@@ -28,7 +18,7 @@ fi
 
 # Upload the files
 ftp_script=$ftp_script_base.files.txt
-$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|archiveID.*\" $fileSet_windows $archiveID" "$log"
+$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|.log/\" $fileSet_windows $archiveID" "$log"
 rc=$?
 if [[ $rc != 0 ]] ; then
     exit -1

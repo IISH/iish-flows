@@ -6,23 +6,11 @@
 # Add Instruction
 # Prepare a mets document
 
-na=$1
-fileSet=$2
-work=$3
-source $FLOWS_HOME/config.sh
-archiveID=$(basename $fileSet)
-fileSet_windows=$(cygpath --windows $fileSet)
-log=$work/$datestamp.log
-report=$fileSet/$archiveID.report.txt
+source $FLOWS_HOME/setup.sh "$@"
+
+report=$work/$archiveID.report.txt
 cf=$fileSet/$archiveID.concordanceValidWithPID.csv
 
-net use $FLOW1_SHARE
-if [ ! -d $flow1_share_path ] ; then
-	echo "Cannot connect to share $FLOW1_HOME">>$log
-	exit -1
-fi
-
-echo $(date)>$log
 echo "Start validation">>$log
 
 echo "Validation for $archiveID\nStarted on $(date)\n\n" > $report

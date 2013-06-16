@@ -1,13 +1,12 @@
 #!/bin/bash
 
-na=$1
-fileSet=$2
-work=$3
-source $FLOWS_HOME/config.sh
-archiveID=$(basename $fileSet)
-fileSet_windows=$(cygpath --windows $fileSet)
-log=$work/$datestamp.log
-report=$fileSet/$archiveID.report.checksum.txt
+# /checksum/run.sh
+#
+# Compares the checksums
+#
+# Usage: run.sh [na] [fileSet] [work directory]
+
+source $FLOWS_HOME/setup.sh "$@"
 
 # Remove DOS \r
 file=$fileSet/checksum.md5
@@ -23,4 +22,5 @@ if [ ! -f $backup ] ; then
 fi
 tr -d '\r' < $file > /tmp/$archiveID
 mv /tmp/$archiveID $file
+report=$work/$archiveID.report.txt
 md5sum --check $file > $report

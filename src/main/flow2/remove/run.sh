@@ -4,20 +4,9 @@
 # When we find a match, remove the file.
 # And when all files are gone, remove the fileSet
 #
-# Usage: run.sh [fileSet]
+# Usage: run.sh [na] [fileSet] [work directory]
 
-na=$1
-fileSet=$2
-work=$3
-source $FLOWS_HOME/config.sh
-archiveID=$(basename $fileSet)
-fileSet_windows=$(cygpath --windows $fileSet)
-log=$work/$datestamp.log
-
-if [ ! -d "$fileSet" ] ; then
-	echo "No fileSet found: $fileSet">>$log
-	exit 0
-fi
+source $FLOWS_HOME/setup.sh "$@"
 
 file_instruction=$fileSet/instruction.xml
 if [ ! -f "$file_instruction" ] ; then
@@ -29,7 +18,7 @@ report=$log.report
 groovy $flow2_home/remove/remove.file.groovy "$file_instruction" > $report
 count=$(find $fileSet -type f | wc -l)
 if [[ $count == 1 ]] ; then
-	history=$flow2_share_path/.history/$archiveID
+	history="$(dirname $fileSet)/.history/$archiveID"
 	mkdir -p $history
 	mv $fileSet $history
 fi
