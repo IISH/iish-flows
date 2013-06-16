@@ -6,7 +6,7 @@
 #
 # Usage: run.sh [na] [fileSet] [work directory]
 
-source $FLOWS_HOME/setup.sh "$@"
+source $FLOWS_HOME/src/main/global/setup.sh "$@"
 
 file_instruction=$fileSet/instruction.xml
 if [ ! -f "$file_instruction" ] ; then

@@ -19,7 +19,7 @@
 # Usage:
 # file.sh [na] [folder name] [log]
 
-source $FLOWS_HOME/setup.sh $0 "$@"
+source $FLOWS_HOME/src/main/global/setup.sh $0 "$@"
 
 echo "fileSet=$fileSet"
 echo "na=$na"

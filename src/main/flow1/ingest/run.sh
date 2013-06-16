@@ -6,7 +6,7 @@
 #
 # Usage: run.sh [na] [fileSet] [work directory]
 
-source $FLOWS_HOME/setup.sh "$@"
+source $FLOWS_HOME/src/main/global/setup.sh "$@"
 
 echo "Start preparing ingest...">>$log
 cf=$fileSet/concordanceValidWithPID.csv
