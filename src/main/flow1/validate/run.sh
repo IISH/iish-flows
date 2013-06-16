@@ -8,8 +8,8 @@
 
 source $FLOWS_HOME/setup.sh "$@"
 
-report=$work/$archiveID.report.txt
-cf=$fileSet/$archiveID.concordanceValidWithPID.csv
+report=$work/report.txt
+cf=$fileSet/concordanceValidWithPID.csv
 
 echo "Start validation">>$log
 
