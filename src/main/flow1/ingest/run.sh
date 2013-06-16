@@ -9,7 +9,7 @@
 source $FLOWS_HOME/setup.sh "$@"
 
 echo "Start preparing ingest...">>$log
-cf=$fileSet/$archiveID.concordanceValidWithPID.csv
+cf=$fileSet/concordanceValidWithPID.csv
 if [ ! -f $cf ] ; then
     echo "Error... did not find $cf">>$log
     echo "Is the dataset validated ?">>$log
