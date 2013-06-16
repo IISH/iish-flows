@@ -14,8 +14,7 @@ if [ ! -f "$file_instruction" ] ; then
 	exit 0
 fi
 
-report=$log.report
-groovy $flow2_home/remove/remove.file.groovy "$file_instruction" > $report
+groovy remove.file.groovy "$file_instruction" >> $log
 count=$(find $fileSet -type f | wc -l)
 if [[ $count == 1 ]] ; then
 	history="$(dirname $fileSet)/.history/$archiveID"

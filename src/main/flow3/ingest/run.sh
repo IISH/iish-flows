@@ -40,6 +40,7 @@ if [ $ok == false ] ; then
 fi
 
 # Start a droid analysis
+p=$(pwd)
 cd $(cygpath $DROID_HOME)
 for d in $fileSet/*
 do
@@ -50,6 +51,7 @@ do
         manifest="$fileSet/.level1/$archiveID.$subfolder.csv"
         droid.bat -q -p "$profile" -a $(cygpath --windows "$d") -R>>$log
         droid.bat -q -p "$profile" -e "$(cygpath --windows "$manifest")">>$log
+        cd "$pwd"
 		groovy removePath.groovy "$manifest" $(cygpath --windows "$d")
 		cp $manifest $d/
 		rm "$d/profile.droid"
