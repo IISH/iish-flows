@@ -19,7 +19,14 @@
 # Usage:
 # file.sh [na] [folder name] [log]
 
-source $FLOWS_HOME/setup.sh "$@"
+source $FLOWS_HOME/setup.sh $0 "$@"
+
+echo "fileSet=$fileSet"
+echo "na=$na"
+echo "work=$work"
+echo "log=$log"
+echo "archiveID=$archiveID"
+exit 0
 
 GiB=$(echo "(2^30)" | bc)
 BlockLimit=128

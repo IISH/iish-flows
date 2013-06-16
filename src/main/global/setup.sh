@@ -1,8 +1,11 @@
 #!/bin/bash
 
-na=$1
 fileSet=$2
-work=$3
+na=$(basename $fileSet)
+event=$(basename $1)
+work=$fileSet/.$event
+mkdir -p $work
+rm -f "$fileSet/$event"
 
 $FLOWS_HOME/config.sh
 

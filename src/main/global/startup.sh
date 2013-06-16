@@ -6,7 +6,7 @@
 
 source $FLOWS_HOME/config.sh
 
-for flow in $FLOWS_HOME/src/main/*
+for flow in $flows_home/src/main/*
 do
     flow_folder=$(basename $flow)
     for run_folder in $flow/*
@@ -22,13 +22,9 @@ do
                     for fileSet in $na/*
                     do
                         if [ -d $fileSet ] ; then
-                            command=$(basename $run_folder)
-                            if [ -f "$fileSet/$command.txt" ] ; then
-                                rm -f "$fileSet/$command.txt"
-                                work="$fileSet/.$command"
-                                mkdir "$work"
-                                cd $run_folder
-                                $run_script "$run_folder" $(basename $na) "$fileSet" "$work" &
+                            event="$fileSet/$(basename $run_folder).txt"
+                            if [ -f "$event" ] ; then
+								$run_script "$fileSet"
                             fi
                         fi
                     done
