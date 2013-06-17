@@ -8,3 +8,5 @@ config.xml
 target
 config.sh
 config.sh~
+*.sh~
+.ant-targets-build.xml

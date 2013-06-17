@@ -6,7 +6,7 @@
 # Add Instruction
 # Prepare a mets document
 
-source $FLOWS_HOME/src/main/global/setup.sh "$@"
+source $FLOWS_HOME/src/main/global/setup.sh $0 "$@"
 
 report=$work/report.txt
 cf=$fileSet/concordanceValidWithPID.csv

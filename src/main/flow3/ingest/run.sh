@@ -21,13 +21,6 @@
 
 source $FLOWS_HOME/src/main/global/setup.sh $0 "$@"
 
-echo "fileSet=$fileSet"
-echo "na=$na"
-echo "work=$work"
-echo "log=$log"
-echo "archiveID=$archiveID"
-exit 0
-
 GiB=$(echo "(2^30)" | bc)
 BlockLimit=128
 ftp_script_base=$work/ftp.$archiveID.$datestamp
@@ -39,8 +32,8 @@ do
     blocks=$(echo "$size / $GiB" | bc)
     if [[ $blocks -gt $BlockLimit ]] ; then
         echo "The folder $d with size $size is larger then the allowed size of $GiB x $BlockLimit">>$log
+	    ok=false
     fi
-    ok=false
 done
 if [ $ok == false ] ; then
     exit -1

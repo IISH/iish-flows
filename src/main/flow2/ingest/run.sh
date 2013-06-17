@@ -5,7 +5,7 @@
 # Usage:
 # ftp.sh [na] [folder name]
 
-source $FLOWS_HOME/src/main/global/setup.sh "$@"
+source $FLOWS_HOME/src/main/global/setup.sh $0 "$@"
 
 ftp_script_base=$work/ftp.$archiveID.$datestamp
 

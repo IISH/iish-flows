@@ -17,6 +17,11 @@ do
             hotfolders=$(eval "echo \$$key")
             for hotfolder in "$hotfolders"
             do
+				if [ ! -d "$hotfolder" ] ; then
+					key=$flow_folder"_share"
+					share=$(eval "echo \$$key")
+					net use $share
+				fi
                 for na in $hotfolder/*
                 do
                     for fileSet in $na/*

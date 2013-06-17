@@ -6,7 +6,7 @@
 #
 # Usage: run.sh [na] [fileSet] [work directory]
 
-source $FLOWS_HOME/src/main/global/setup.sh "$@"
+source $FLOWS_HOME/src/main/global/setup.sh $0 "$@"
 
 # Remove DOS \r
 file=$fileSet/checksum.md5
