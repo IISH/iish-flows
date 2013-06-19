@@ -33,7 +33,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 echo "Create instruction for our files">>$log
-php csv.php -f $(cygpath --windows $cf) -n $na -h "access='restricted' contentType='image/tiff' autoIngestValidInstruction='false' plan='StagingfileIngestLevel3,StagingfileIngestLevel2,StagingfileIngestLevel1,StagingfileBindPIDs,StagingfileIngestMaster'"
+groovy $(cygpath --windows "$global_home/instruction.csv.groovy") -csv $(cygpath --windows $cf) -label "$archiveID $flow1_client" -access restricted -contentType image/tiff -autoIngestValidInstruction false -plan "StagingfileIngestLevel3,StagingfileIngestLevel2,StagingfileIngestLevel1,StagingfileBindPIDs,StagingfileIngestMaster"
 if [ ! -f $fileSet/instruction.xml ] ; then
     echo "Instruction not found.">>$log
     exit -1
