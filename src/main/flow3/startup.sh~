@@ -1,5 +1,0 @@
-#!/bin/bash
-
-source $FLOWS_HOME/config.sh
-
-echo $global_home/startup.sh "$FLOW3_SHARE" "$flow3_hotfolders"

@@ -1,22 +1,28 @@
 /**
  * removePath
  *
- * Remove all references that come before the second argument args[1]
+ * Turn the absolute path into a relative one, by removing the fileSet
+ *
+ * Usage: [file] [fileSet]
  */
 
 def fileSet = args[1]
 String f = new File('/' + fileSet[0]+':' + fileSet[2..-1].replaceAll("\\\\", "/")).toURI().toString()
 def replace = [fileSet.replaceAll("\\\\", "\\\\\\\\"), f]
 
-def tmp = new File(args[0] + ".tmp")
-
-new File(args[0]).eachLine {
+def file = new File(args[0])
+def list=[]
+file.eachLine {
 
    replace.each { r ->
        it=it.replaceAll(r, '')
    }
-    tmp.write(it)
-    tmp.write("\n")
+    list << it
 }
 
-tmp.renameTo(args[0])
+file.delete()
+list.each {
+	file.append(it, "UTF-8")
+	file.append("\n")
+}
+

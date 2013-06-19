@@ -9,16 +9,17 @@
 source $FLOWS_HOME/src/main/global/setup.sh $0 "$@"
 
 report=$work/report.txt
-cf=$fileSet/concordanceValidWithPID.csv
 
 echo "Start validation">>$log
-
-echo "Validation for $archiveID\nStarted on $(date)\n\n" > $report
-java -Xms512m -Xmx512m -cp $(cygpath --windows "$HOMEPATH\.m2\repository\org\objectrepository\validation\1.0\validation-1.0.jar") org.objectrepository.validation.ConcordanceMain -fileSet ${fileSet%/*} -archiveID $archiveID -na $na >> $report
+echo "Validation for $archiveID" > $report
+echo "Started on $(date)">>$report
+java -Xms512m -Xmx512m -cp $(cygpath --windows "$HOMEPATH\.m2\repository\org\objectrepository\validation\1.0\validation-1.0.jar") org.objectrepository.validation.ConcordanceMain -fileSet $(cygpath --windows "$fileSet") >> $report
+cf=$work/concordanceValidWithPID.csv
 mv $fileSet/concordanceValidWithPID.csv $cf
 if [ ! -f $cf ] ; then
     echo "Unable to find $cf">>$log
-	echo "The validation was interrupted."
+	echo "The validation was interrupted.">>$log
+	exit -1
 fi
 
 echo "You can savely ignore warnings about Thumbs.db" >> $report

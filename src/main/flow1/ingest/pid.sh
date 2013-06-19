@@ -38,9 +38,9 @@ do
 
     file=/tmp/pid.log
     echo "Sending $pid"
-    wget -O $file --header="Content-Type: text/xml" \
+    echo wget -O $file --header="Content-Type: text/xml" \
         --header="Authorization: oauth $pidwebserviceKey" --post-data "$soapenv" \
-        --no-check-certificate $pidwebserviceEndpoint
+        --no-check-certificate $pidwebserviceEndpoint >> $log
 
     pidCheck=$(php $global_home/pid.php -l $file)
     rm $file

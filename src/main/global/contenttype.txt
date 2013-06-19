@@ -1,3 +1,4 @@
+iso,application/x-iso-image
 pyc,application/x-bytecode.python
 dwg,application/acad
 arj,application/arj

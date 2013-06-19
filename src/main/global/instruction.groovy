@@ -47,10 +47,10 @@ class SorInstruction {
     private def getFolders(File folder, def location, def out) {
         if (folder.name[0] != '.') {
             for (File file : folder.listFiles()) {
-                if (recurse && file.isDirectory()) {
-                    getFolders(file, location + "/" + file.name, out)
+                if (file.isFile()) {
+					out << writeFile(file, location)
                 } else {
-                    out << writeFile(file, location)
+					if ( recurse ) getFolders(file, location + "/" + file.name, out)
                 }
             }
         }
@@ -59,7 +59,7 @@ class SorInstruction {
     private def writeFile(File f, def folder) {
 
         if (f.name.equals("instruction.xml")) return
-        if (f.name[0] != '.') return
+        if (f.name[0] == '.') return
 
         int i = f.name.lastIndexOf('.')
         def extension = (i == -1 || i == f.name.length() - 1) ? null : f.name.substring(i + 1)

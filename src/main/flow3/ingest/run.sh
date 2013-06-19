@@ -10,9 +10,9 @@
 # /a/b/BULK23456/2/files and folders
 #
 # Will produce:
-# /a/b/BULK23456/.level1/BULK23456.1.csv
+# /a/b/BULK23456/.level2/BULK23456.1.csv
 # /a/b/BULK23456/BULK23456.1.iso
-# /a/b/BULK23456/.level1/BULK23456.2.csv
+# /a/b/BULK23456/.level2/BULK23456.2.csv
 # /a/b/BULK23456/BULK23456.2.iso
 # /a/b/BULK23456/instruction.xml
 #
@@ -39,26 +39,26 @@ if [ $ok == false ] ; then
     exit -1
 fi
 
-# Start a droid analysis
+echo "Start a droid analysis">>$log
 p=$(pwd)
-cd $(cygpath $DROID_HOME)
 for d in $fileSet/*
 do
     if [ -d $d ] ; then
-		mkdir -p "$fileSet/.level1"
+		mkdir -p "$fileSet/.level2"
 		subfolder=$(basename $d)
         profile=$(cygpath --windows "$d/profile.droid")
-        manifest="$fileSet/.level1/$archiveID.$subfolder.csv"
-        droid.bat -q -p "$profile" -a $(cygpath --windows "$d") -R>>$log
-        droid.bat -q -p "$profile" -e "$(cygpath --windows "$manifest")">>$log
-        cd "$pwd"
-		groovy removePath.groovy "$manifest" $(cygpath --windows "$d")
-		cp $manifest $d/
+        manifest="$fileSet/.level2/$archiveID.$subfolder.csv"
+		cd $(cygpath $DROID_HOME)
+        droid.bat -p "$profile" -a $(cygpath --windows "$d") -R>>$log
+        droid.bat -p "$profile" -e "$(cygpath --windows "$manifest")">>$log
 		rm "$d/profile.droid"
+        cd "$p"
+		groovy removePath.groovy "$manifest" $(cygpath --windows "$d")
+		cp "$manifest" $d/
     fi
 done
 
-# Create the UDF 1.02 images
+echo "Create the UDF 1.02 images">>$log
 for d in $fileSet/*
 do
     if [ -d $d ] ; then
@@ -66,7 +66,7 @@ do
 		source=$(cygpath --windows "$d")
 		target=$(cygpath --windows "$fileSet/$archiveID.$subfolder.iso")
         # See Oscdimg Command-Line Options at technet.microsoft.com/en-us/library/cc749036(v=ws.10).aspx
-		oscdimg.exe -udfver102 -u2 -uf -l$archiveID.$subfolder -h -w4 $source $target>>$log
+		oscdimg.exe -udfver102 -u2 -l$archiveID.$subfolder -h -w4 $source $target>>$log
         rc=$?
         if [[ $rc != 0 ]] ; then
             echo "There were errors when creating the image for $d">>$log
@@ -77,17 +77,27 @@ done
 
 # Upload the files
 ftp_script=$ftp_script_base.files.txt
-$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|*/\;archiveID.*\" $fileSet_windows $archiveID" "$log"
-$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|*/\" $fileSet_windows\\.level1 $archiveID/.level1" "$log"
-$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|*/\" $fileSet_windows\\.level2 $archiveID/.level2" "$log"
-$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|*/\" $fileSet_windows\\.level3 $archiveID/.level3" "$log"
+$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -criteria=size -filemask=\"*.iso|/\" $fileSet_windows $archiveID" "$log"
+rc=$?
+if [[ $rc != 0 ]] ; then
+    exit -1
+fi
+$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -criteria=size $fileSet_windows\\.level1 $archiveID/.level1" "$log"
+if [[ $rc != 0 ]] ; then
+    exit -1
+fi
+$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -criteria=size $fileSet_windows\\.level2 $archiveID/.level2" "$log"
+if [[ $rc != 0 ]] ; then
+    exit -1
+fi
+$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -criteria=size $fileSet_windows\\.level3 $archiveID/.level3" "$log"
 rc=$?
 if [[ $rc != 0 ]] ; then
     exit -1
 fi
 
 # Produce instruction and upload it
-groovy $(cygpath --windows "$global_home/instruction.groovy") -na $na -fileSet "$fileSet_windows" -autoIngestValidInstruction false -label "$datestamp UDF image $archiveID.$subfolder $flow3_client" -notificationEMail $flow3_notificationEMail>>$log
+groovy $(cygpath --windows "$global_home/instruction.groovy") -na $na -fileSet "$fileSet_windows" -autoIngestValidInstruction false -label "$datestamp UDF image $archiveID $flow3_client" -notificationEMail $flow3_notificationEMail -plan "StagingfileIngestLevel3,StagingfileIngestLevel2,StagingfileIngestLevel1,StagingfileBindPIDs,StagingfileIngestMaster">>$log
 ftp_script=$ftp_script_base.instruction.txt
 $global_home/ftp.sh "$ftp_script" "put $fileSet_windows\instruction.xml $archiveID/instruction.xml" "$log"
 rc=$?

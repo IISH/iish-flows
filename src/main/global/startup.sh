@@ -29,7 +29,7 @@ do
                         if [ -d $fileSet ] ; then
                             event="$fileSet/$(basename $run_folder).txt"
                             if [ -f "$event" ] ; then
-								$run_script "$fileSet"
+								$run_script "$fileSet" &
                             fi
                         fi
                     done
@@ -38,3 +38,5 @@ do
         fi
     done
 done
+
+exit 0
