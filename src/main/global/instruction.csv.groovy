@@ -56,7 +56,6 @@ class SorInstruction {
             }
         }
         writer.close()
-
         if (files == 0) file.delete()
     }
 

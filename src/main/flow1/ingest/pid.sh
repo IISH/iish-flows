@@ -13,7 +13,7 @@ while read line
 do
     while IFS=, read objnr ID master jpeg volgnr PID; do
         if [[ $volgnr == 1 ]]; then
-            objid=$na/$archiveID/$ID
+            objid=$na/$archiveID.$ID
             soapenv="<?xml version='1.0' encoding='UTF-8'?>  \
     <soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:pid='http://pid.socialhistoryservices.org/'>  \
         <soapenv:Body> \
@@ -38,7 +38,7 @@ do
 
     file=/tmp/pid.log
     echo "Sending $pid"
-    echo wget -O $file --header="Content-Type: text/xml" \
+    wget -O $file --header="Content-Type: text/xml" \
         --header="Authorization: oauth $pidwebserviceKey" --post-data "$soapenv" \
         --no-check-certificate $pidwebserviceEndpoint >> $log
 

@@ -33,7 +33,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 echo "Create instruction for our files">>$log
-groovy $(cygpath --windows "$global_home/instruction.csv.groovy") -csv $(cygpath --windows $cf) -label "$archiveID $flow1_client" -access restricted -contentType image/tiff -autoIngestValidInstruction false -plan "StagingfileIngestLevel3,StagingfileIngestLevel2,StagingfileIngestLevel1,StagingfileBindPIDs,StagingfileIngestMaster"
+groovy $(cygpath --windows "$global_home/instruction.csv.groovy") -fileSet $(cygpath --windows "$fileSet") -csv $(cygpath --windows "$cf") -label "$archiveID $flow1_client" -access restricted -contentType image/tiff -autoIngestValidInstruction false -plan "StagingfileIngestLevel3,StagingfileIngestLevel2,StagingfileIngestLevel1,StagingfileBindPIDs,StagingfileIngestMaster">>$log
 if [ ! -f $fileSet/instruction.xml ] ; then
     echo "Instruction not found.">>$log
     exit -1
@@ -50,5 +50,3 @@ fi
 
 echo $(date)>>$log
 echo "Done files update.">>$log
-
-rm $fileSet/instruction.xml
