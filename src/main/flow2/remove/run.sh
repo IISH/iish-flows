@@ -14,12 +14,13 @@ if [ ! -f "$file_instruction" ] ; then
 	exit 0
 fi
 
-groovy remove.file.groovy "$file_instruction" >> $log
-count=$(find $fileSet -type f | wc -l)
+report="$log.report"
+groovy remove.file.groovy "$file_instruction" > $report
+groovy -cp $(cygpath --windows "$HOMEPATH\.m2\repository\javax\mail\javax.mail-api\1.5.0\javax.mail-api-1.5.0.jar;$HOMEPATH\.m2\repository\javax\mail\mail\1.4.7\mail-1.4.7.jar") $global_home/mail.groovy $(cygpath --windows $report) $flow2_client "$flow2_notificationEMail" "flow2 Sor import" $mailrelay >>$log
+
+count=$(find $fileSet -type f \( ! -regex ".*/\..*/..*" \) | wc -l)
 if [[ $count == 1 ]] ; then
-	history="$(dirname $fileSet)/.history/$archiveID"
+	history="$(dirname $fileSet)/.history"
 	mkdir -p $history
 	mv $fileSet $history
 fi
-
-groovy -cp $(cygpath --windows "$HOMEPATH\.m2\repository\javax\mail\javax.mail-api\1.5.0\javax.mail-api-1.5.0.jar;$HOMEPATH\.m2\repository\javax\mail\mail\1.4.7\mail-1.4.7.jar") $global_home/mail.groovy $(cygpath --windows $report) $flow2_client "$flow2_notificationEMail" "flow2 Sor import" $mailrelay >>$log
