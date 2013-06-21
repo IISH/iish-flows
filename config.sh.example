@@ -1,0 +1,38 @@
+#!/bin/bash
+#
+# config.sh
+#
+# Load and setup environmental variables.
+
+flows_home=
+HOMEPATH=
+global_home=$flows_home/src/main/global
+
+# Flow 1
+flow1_letter=
+flow1_share="$flow1_letter: [share here] /PERSISTENT:NO"
+flow1_hotfolders="/cygdrive/$flow1_letter/[share name here] /cygdrive/$flow1_letter/[another share here]"
+flow1_client=flow1@localhost
+flow1_notificationEMail=
+
+# Flow 2
+flow2_letter=
+flow2_share="$flow1_letter: [share here] /PERSISTENT:NO"
+flow2_hotfolders="/cygdrive/$flow1_letter/[share name here] /cygdrive/$flow1_letter/[another share here]"
+flow2_client=flow1@localhost
+flow2_notificationEMail=
+
+# Flow 3
+flow3_letter=
+flow3_share="$flow1_letter: [share here] /PERSISTENT:NO"
+flow3_hotfolders="/cygdrive/$flow1_letter/[share name here] /cygdrive/$flow1_letter/[another share here]"
+flow3_client=flow1@localhost
+flow3_notificationEMail=
+
+FTP_CONNECTION="[ftp domain]-explicittls -passive"
+datestamp=$(date +"%Y-%m-%d")
+mailrelay=
+pidwebserviceEndpoint=https://pid.socialhistoryservices.org/secure/
+pidwebserviceKey=
+catalog=
+or=
