@@ -15,7 +15,7 @@ do
         if [ -f $run_script ] ; then
             key=$flow_folder"_hotfolders"
             hotfolders=$(eval "echo \$$key")
-            for hotfolder in "$hotfolders"
+            for hotfolder in $hotfolders
             do
 				if [ ! -d "$hotfolder" ] ; then
 					key=$flow_folder"_share"
@@ -29,6 +29,7 @@ do
                         if [ -d $fileSet ] ; then
                             event="$fileSet/$(basename $run_folder).txt"
                             if [ -f "$event" ] ; then
+								echo "$event">>/tmp/event.txt
 								$run_script "$fileSet" &
                             fi
                         fi
