@@ -12,7 +12,7 @@ echo "Declare pids...">>$log
 while read line
 do
     while IFS=, read objnr ID master jpeg volgnr PID; do
-        if [[ $volgnr == 1 ]]; then
+        if [[ $volgnr == 2 ]]; then
             objid=$na/$archiveID.$ID
             soapenv="<?xml version='1.0' encoding='UTF-8'?>  \
     <soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:pid='http://pid.socialhistoryservices.org/'>  \
