@@ -27,6 +27,7 @@ do
                     for fileSet in $na/*
                     do
                         if [ -d $fileSet ] ; then
+						echo $fileSet
                             event="$fileSet/$(basename $run_folder).txt"
                             if [ -f "$event" ] ; then
 								echo "$event">>/tmp/event.txt
