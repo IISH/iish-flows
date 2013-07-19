@@ -12,7 +12,7 @@ def replace = [fileSet.replaceAll("\\\\", "\\\\\\\\"), f]
 
 def file = new File(args[0])
 def list=[]
-file.eachLine {
+file.eachLine ('utf8') {
 
    replace.each { r ->
        it=it.replaceAll(r, '')
@@ -22,7 +22,7 @@ file.eachLine {
 
 file.delete()
 list.each {
-	file.append(it, "UTF-8")
+	file.append(it, 'UTF-8')
 	file.append("\n")
 }
 
