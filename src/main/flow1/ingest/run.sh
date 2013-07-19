@@ -16,5 +16,12 @@ if [ ! -f $cf ] ; then
     exit -1
 fi
 
+md5check=$(md5sum $fileSet/$archiveID.csv)
+md5=$(cat $fileSet/.validate/$archiveID.csv.md5)
+if [ "$md5" == "$md5check" ] ; then
+    echo "The CSV file seems to have been changed after it was validated and must be re-validated first.">>$log
+    exit -1
+fi
+
 source ./file.sh
 source ./pid.sh

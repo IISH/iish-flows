@@ -26,6 +26,8 @@ echo "You can savely ignore warnings about Thumbs.db" >> $report
 echo $(date)>>$log
 echo "Done validate.">>$log
 
+md5sum $fileSet/$archiveID.csv > $work/$archiveID.csv.md5
+
 body="/tmp/report.txt"
 echo "Rapportage op $report">$body
 groovy -cp $(cygpath --windows "$HOMEPATH\.m2\repository\javax\mail\javax.mail-api\1.5.0\javax.mail-api-1.5.0.jar;$HOMEPATH\.m2\repository\javax\mail\mail\1.4.7\mail-1.4.7.jar") $global_home/mail.groovy $(cygpath --windows $body) $flow1_client "$flow1_notificationEMail" "flow1 validation" $mailrelay >>$log
