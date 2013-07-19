@@ -13,6 +13,7 @@ report=$work/report.txt
 echo "Start validation">>$log
 echo "Validation for $archiveID" > $report
 echo "Started on $(date)">>$report
+md5sum $fileSet/$archiveID.csv > $work/$archiveID.csv.md5
 java -Xms512m -Xmx512m -cp $(cygpath --windows "$HOMEPATH\.m2\repository\org\objectrepository\validation\1.0\validation-1.0.jar") org.objectrepository.validation.ConcordanceMain -fileSet $(cygpath --windows "$fileSet") >> $report
 cf=$work/concordanceValidWithPID.csv
 mv $fileSet/concordanceValidWithPID.csv $cf
@@ -25,8 +26,6 @@ fi
 echo "You can savely ignore warnings about Thumbs.db" >> $report
 echo $(date)>>$log
 echo "Done validate.">>$log
-
-md5sum $fileSet/$archiveID.csv > $work/$archiveID.csv.md5
 
 body="/tmp/report.txt"
 echo "Rapportage op $report">$body
