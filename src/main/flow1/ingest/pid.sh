@@ -24,8 +24,8 @@ do
                 <pid:handle> \
                     <pid:pid>$objid</pid:pid> \
                     <pid:locAtt> \
-                            <pid:location weight='1' href='$catalog/$archiveID#$ID'/> \
-                            <pid:location weight='0' href='$catalog/$archiveID#$ID' view='catalog'/> \
+                            <pid:location weight='1' href='$catalog/$archiveID/ArchiveContentList#$ID'/> \
+                            <pid:location weight='0' href='$catalog/$archiveID/ArchiveContentList#$ID' view='catalog'/> \
                             <pid:location weight='0' href='$or/mets/$objid' view='mets'/> \
                             <pid:location weight='0' href='$or/pdf/$objid' view='pdf'/> \
                             <pid:location weight='0' href='$or/file/master/$PID' view='master'/> \
