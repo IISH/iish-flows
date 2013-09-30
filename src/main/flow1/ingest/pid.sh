@@ -10,11 +10,13 @@ echo "Declare pids...">>$log
 
 # Example line is
 # 1,1,/ARCH00518/Tiff/1/1_0005.tif,/ARCH00518/Jpeg/1/1_0005.jpg,5,10622/A3EF7419-A1D8-4698-8369-F62ADAEC703E
+lastpid=""
 file=/tmp/pid.log
 while read line
 do
     while IFS=, read objnr ID master jpeg volgnr PID; do
         if [[ $volgnr == 2 ]]; then
+            lastpid=$PID
             objid=$na/$archiveID.$ID
             soapenv="<?xml version='1.0' encoding='UTF-8'?>  \
     <soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:pid='http://pid.socialhistoryservices.org/'>  \
@@ -69,10 +71,10 @@ soapenv="<?xml version='1.0' encoding='UTF-8'?>  \
                             <pid:location weight='1' href='$catalog/$archiveID'/> \
                             <pid:location weight='0' href='$catalog/$archiveID' view='catalog'/> \
                             <pid:location weight='0' href='$oai?verb=GetRecord&amp;identifier=oai:socialhistoryservices.org:$na/$archiveID&amp;metadataPrefix=ead' view='ead'/> \
-                            <pid:location weight='0' href='$or/file/master/$PID' view='master'/> \
-                            <pid:location weight='0' href='$or/file/level2/$PID' view='level2'/> \
-                            <pid:location weight='0' href='$or/file/level3/$PID' view='level3'/>
-                            <pid:location weight='0' href='$or/file/level1/$PID' view='level1'/> \
+                            <pid:location weight='0' href='$or/file/master/$lastpid' view='master'/> \
+                            <pid:location weight='0' href='$or/file/level2/$lastpid' view='level2'/> \
+                            <pid:location weight='0' href='$or/file/level3/$lastpid' view='level3'/>
+                            <pid:location weight='0' href='$or/file/level1/$lastpid' view='level1'/> \
                         </pid:locAtt> \
                 </pid:handle> \
             </pid:UpsertPidRequest> \
