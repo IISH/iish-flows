@@ -70,12 +70,7 @@ class SorInstruction {
     // taken from http://snipplr.com/view/8308/
     private def generateMD5(File file) {
 
-        if (!file.exists()) {
-            file.parentFile.mkdirs()
-            FileOutputStream fos = new FileOutputStream(file)
-            fos.write(file.absolutePath.bytes)
-            fos.close()
-        }
+        assert file.exists()
         Date start = new Date()
         digest.reset()
         file.withInputStream() { is ->
