@@ -6,7 +6,6 @@ log
 temp
 config.xml
 target
-config.sh
-config.sh~
+config.*
 *.sh~
 .ant-targets-build.xml
