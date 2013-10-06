@@ -27,6 +27,9 @@ fi
 
 # Upload the derivatives
 $global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -criteria=size $fileSet_windows\jpeg $archiveID/.level1" "$log"
+$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -criteria=size $fileSet_windows\.level2 $archiveID/.level2" "$log"
+$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -criteria=size $fileSet_windows\.level3 $archiveID/.level3" "$log"
+$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -criteria=size $fileSet_windows\.level4 $archiveID/.level4" "$log"
 rc=$?
 if [[ $rc != 0 ]] ; then
     exit -1
@@ -34,6 +37,11 @@ fi
 
 echo "Create instruction for our files">>$log
 groovy $(cygpath --windows "$global_home/instruction.csv.groovy") -fileSet $(cygpath --windows "$fileSet") -csv $(cygpath --windows "$cf") -label "$archiveID $flow1_client" -access restricted -contentType image/tiff -autoIngestValidInstruction true -notificationEMail $flow1_notificationEMail  -plan "StagingfileIngestLevel3,StagingfileIngestLevel2,StagingfileIngestLevel1,StagingfileBindPIDs,StagingfileIngestMaster">>$log
+rc=$?
+if [[ $rc != 0 ]] ; then
+	echo "Problem when creating the instruction.">>$log
+    exit -1
+fi
 if [ ! -f $fileSet/instruction.xml ] ; then
     echo "Instruction not found.">>$log
     exit -1
