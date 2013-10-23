@@ -29,7 +29,7 @@
                                 <xsl:value-of select="$unitid"/>
                             </td>
                             <xsl:choose>
-                                <xsl:when test="count(//ead:unitid[.=$unitid]) = 1">
+                                <xsl:when test="count(//ead:unitid[.=$unitid and not(../../../ead:archdesc)]) = 1">
                                     <td>X</td>
                                     <td><!-- empty --></td>
                                 </xsl:when>
@@ -51,22 +51,28 @@
                         <th>Afwezig</th>
                     </tr>
                     <xsl:for-each select="//ead:unitid">
-                        <xsl:variable name="unitid" select="normalize-space(text())"/>
-                        <tr>
-                            <td>
-                                <xsl:value-of select="text()"/>
-                            </td>
-                            <xsl:choose>
-                                <xsl:when test="count($l/list/item[.=$unitid]) = 1">
-                                    <td>X</td>
-                                    <td><!-- empty --></td>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <td><!-- empty --></td>
-                                    <td>X</td>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </tr>
+
+                        <xsl:choose>
+                            <xsl:when test="../../../ead:archdesc"/>
+                            <xsl:otherwise>
+                                <xsl:variable name="unitid" select="normalize-space(text())"/>
+                                <tr>
+                                    <td>
+                                        <xsl:value-of select="text()"/>
+                                    </td>
+                                    <xsl:choose>
+                                        <xsl:when test="count($l/list/item[.=$unitid]) = 1">
+                                            <td>X</td>
+                                            <td><!-- empty --></td>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <td><!-- empty --></td>
+                                            <td>X</td>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </tr>
+                            </xsl:otherwise>
+                        </xsl:choose>
                     </xsl:for-each>
                 </table>
             </body>

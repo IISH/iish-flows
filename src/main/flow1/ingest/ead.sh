@@ -20,10 +20,11 @@ if [ ! -f $archiveIDs ] ; then
 	exit -1
 fi
 
-groovy $global_home/ead.groovy "$archiveID" "$archiveIDs" $eadReport >> $log
-if [ -f $eadReport ] ; then
-    $log >> "See the EAD validation for inventarisnummer and unitid matches at"
-    $log >> $eadReport
+ead=$work/ead.with.daoloc.xml
+groovy $global_home/ead.groovy "$eadFile" "$archiveIDs" $ead >> $log
+if [ -f $ead ] ; then
+    $log >> "See the EAD with added daoloc elements at"
+    $log >> $ead
 else
-    $log >> "Unable to validate $eadFile"
+    $log >> "Unable to add daoloc elements to $ead"
 fi
