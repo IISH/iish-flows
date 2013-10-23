@@ -25,3 +25,4 @@ fi
 
 source ./file.sh
 source ./pid.sh
+source ./ead.sh
