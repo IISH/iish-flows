@@ -6,7 +6,7 @@
 #
 # Usage: eadValidate.sh
 
-eadFile=$fileSet/ARCH$na.xml
+eadFile=$fileSet/$archiveID.xml
 if [ ! -f $eadFile ] ; then
     echo "Unable to find the EAD document at $eadFile">>$log
 	echo "The validation was interrupted.">>$log
