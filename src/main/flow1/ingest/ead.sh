@@ -6,7 +6,7 @@
 #
 # Usage: eadValidate.sh
 
-eadFile=$fileSet/$na.xml
+eadFile=$fileSet/ARCH$na.xml
 if [ ! -f $eadFile ] ; then
     echo "Unable to find the EAD document at $eadFile">>$log
 	echo "The ingest was interrupted.">>$log
@@ -20,11 +20,11 @@ if [ ! -f $archiveIDs ] ; then
 	exit -1
 fi
 
-ead=$work/ead.with.daoloc.xml
+ead=$work/ARCH$na.xml
 groovy $global_home/ead.groovy "$eadFile" "$archiveIDs" $ead >> $log
 if [ -f $ead ] ; then
-    $log >> "See the EAD with added daoloc elements at"
-    $log >> $ead
+    echo "See the EAD with added daoloc elements at" >> $log
+    $ead >> $log
 else
-    $log >> "Unable to add daoloc elements to $ead"
+    echo "Unable to add daoloc elements to $ead" >> $ead
 fi

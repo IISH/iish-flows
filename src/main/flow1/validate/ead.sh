@@ -2,11 +2,11 @@
 #
 # /ingest/ead.sh
 #
-# Sees if all items in the concordance table are present in the EAD document.
+# Sees if all items in the concordance table are present in the EAD document. And vise versa.
 #
 # Usage: eadValidate.sh
 
-eadFile=$fileSet/$na.xml
+eadFile=$fileSet/ARCH$na.xml
 if [ ! -f $eadFile ] ; then
     echo "Unable to find the EAD document at $eadFile">>$log
 	echo "The validation was interrupted.">>$log
@@ -30,8 +30,8 @@ echo "</list>" >> $archiveIDs
 eadReport=$work/ead.report.html
 groovy $global_home/ead.groovy "$eadFile" "$archiveIDs" $eadReport >> $log
 if [ -f $eadReport ] ; then
-    $log >> "See the EAD validation for inventarisnummer and unitid matches at"
-    $log >> $eadReport
+    echo "See the EAD validation for inventarisnummer and unitid matches at" >> $log
+    echo $eadReport >> $log
 else
-    $log >> "Unable to validate $eadFile"
+    echo "Unable to validate $eadFile" >> $log
 fi

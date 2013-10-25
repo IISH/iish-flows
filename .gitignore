@@ -9,3 +9,4 @@ target
 config.*
 *.sh~
 .ant-targets-build.xml
+work

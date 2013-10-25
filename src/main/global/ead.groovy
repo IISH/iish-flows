@@ -7,9 +7,8 @@ String params = args[1]
 String outputFile = args[2]
 String outputTmpFile = outputFile + ".tmp"
 
-def url = new URL('ead.xsl')
-def stylesheet = new StreamSource(url.openStream())
-stylesheet.setSystemId(url.toString())
+def file = new File('ead.xsl')
+def stylesheet = new StreamSource(file)
 def transformer = TransformerFactory.newInstance().newTransformer(stylesheet)
 transformer.setParameter('archiveIDs', params)
 
@@ -17,8 +16,11 @@ final source = new StreamSource(inputFile)
 final result = new StreamResult(new File(outputTmpFile))
 transformer.transform(source, result)
 
+final tmp = new File(outputTmpFile)
 new File(outputFile).withWriter { w ->
-    new File(outputTmpFile).eachLine { line ->
+    tmp.eachLine { line ->
         w << line.replaceAll(' xmlns=""', '')
     }
 }
+
+tmp.deleteOnExit()
