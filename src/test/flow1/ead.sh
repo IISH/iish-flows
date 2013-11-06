@@ -20,7 +20,7 @@ if [ ! -d $work ] ; then
     mkdir $work
 fi
 log=$work/log.txt
-na=12345
+archiveID=ARCH12345
 cf=$fileSet/cf.txt
 
 source ./ead.sh
