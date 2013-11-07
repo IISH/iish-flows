@@ -37,7 +37,9 @@ do
 		fi
         filename=$(basename $file_original)
         file_target=$folder_item/${filename%%.*}
-        php ./image.derivative.php -i $(cygpath --windows $file_original) -o $(cygpath --windows $file_target) -l $targetLevel >> $log
+        #php ./image.derivative.php -i $(cygpath --windows $file_original) -o $(cygpath --windows $file_target) -l $targetLevel >> $log
+        imparms=$(identify -format '%h,%w,%x,%y,%z' $file_original)
+        php ./image.derivative.php -i $file_original -o $file_target -l $targetLevel -p "$imparms"
         rc=$?
         if [[ $rc != 0 ]] ; then
             echo "Problem creating $dir_target">>$log

@@ -71,24 +71,33 @@ $derivativeTypes['level3']['extension'] = 'jpg';
 $derivativeTypes['level3']['quality'] = 25;
 $derivativeTypes['level3']['forceWidth'] = 200; //PX
 
+function getImageResolution($a)
+{
+    $split = explode(' ', $a);
+    return $split[0];
+}
 
-function generateDerivative($input, $output, $derivativeType)
+function getImageUnits($a)
+{
+    $split = explode(' ', $a);
+    if (sizeof($split) != 0 && $split[1] == 'PixelsPerCentimeter') return 2;
+    return 1;
+}
+
+function getGeometry($a)
+{
+    $split = explode(' ', $a);
+    if (sizeof($split) == 0) return $a;
+    return $split[0];
+}
+
+function generateDerivative($input, $output, $derivativeType, $width, $height, $xresolution, $yresolution, $depth)
 {
     global $derivativeTypes;
 
-
-    //GET INFO FROM INPUT FILE
-    try {
-        $im = new Imagick($input);
-    } catch (Exception $e) {
-        echo "ERROR: " . $e->getMessage() . "\n";
-        exit();
-    }
-
-    $original['dpis'] = $im->getImageResolution();
-    $original['dpisUnit'] = $im->getImageUnits();
-    $dpisx = (int)round($original['dpis']['x']);
-    $dpisy = (int)round($original['dpis']['y']);
+    $original['dpis']['x'] = getImageResolution($xresolution);
+    $original['dpis']['y'] = getImageResolution($yresolution);
+    $original['dpisUnit'] = getImageUnits($xresolution);
 
     if ($original['dpisUnit'] == 2) {
         $original['dpis'] = (int)round($original['dpis']['x'] * 2.54237);
@@ -96,12 +105,10 @@ function generateDerivative($input, $output, $derivativeType)
         $original['dpis'] = (int)$original['dpis']['x'];
     }
 
-    $original['px'] = $im->getImageGeometry();
-    $original['depth'] = $im->getImageDepth();
-
+    $original['depth'] = $depth;
     $targetDPIs = $original['dpis'];
-    $targetWidth = $original['px']['width'];
-    $targetHeight = $original['px']['height'];
+    $targetWidth = $original['px']['width'] = getGeometry($width);
+    $targetHeight = $original['px']['height'] = getGeometry($height);
 
     //PARSE DPIs RULES
     if (isset($derivativeTypes[$derivativeType]['targetDPI'])) {
@@ -133,8 +140,8 @@ function generateDerivative($input, $output, $derivativeType)
     }
 
     // Adjust minHeight and minWidth according to the actual original
-    if ( isset($derivativeTypes[$derivativeType]['minWidth']) && $derivativeTypes[$derivativeType]['minWidth'] > $original['px']['width'] ) $derivativeTypes[$derivativeType]['minWidth'] = $original['px']['width'] ;
-    if ( isset($derivativeTypes[$derivativeType]['minHeight']) && $derivativeTypes[$derivativeType]['minHeight'] > $original['px']['height'] ) $derivativeTypes[$derivativeType]['minHeight'] = $original['px']['height'] ;
+    if (isset($derivativeTypes[$derivativeType]['minWidth']) && $derivativeTypes[$derivativeType]['minWidth'] > $original['px']['width']) $derivativeTypes[$derivativeType]['minWidth'] = $original['px']['width'];
+    if (isset($derivativeTypes[$derivativeType]['minHeight']) && $derivativeTypes[$derivativeType]['minHeight'] > $original['px']['height']) $derivativeTypes[$derivativeType]['minHeight'] = $original['px']['height'];
 
     //CHECK MAXIMUM WIDTH
     if (isset($derivativeTypes[$derivativeType]['maxWidth'])) {
@@ -153,7 +160,7 @@ function generateDerivative($input, $output, $derivativeType)
                 if ($targetHeight < $derivativeTypes[$derivativeType]['minHeight']) {
                     $correction = $derivativeTypes[$derivativeType]['minHeight'] / $targetHeight;
                     $derivativeTypes[$derivativeType]['maxWidth'] = $correction * $derivativeTypes[$derivativeType]['maxWidth'];
-                    echo "Correction of " . $correction . " to "  .$derivativeTypes[$derivativeType]['maxWidth'] .  "\n";
+                    echo "Correction of " . $correction . " to " . $derivativeTypes[$derivativeType]['maxWidth'] . "\n";
                     $targetDPIs = floor($derivativeTypes[$derivativeType]['maxWidth'] * $original['dpis'] / $original['px']['width']);
                     //$targetWidth = round($targetDPIs * $original['px']['width'] / $original['dpis']);
                     $targetHeight = round($targetDPIs * $original['px']['height'] / $original['dpis']);
@@ -179,7 +186,7 @@ function generateDerivative($input, $output, $derivativeType)
                 if ($targetWidth < $derivativeTypes[$derivativeType]['minWidth']) {
                     $correction = $derivativeTypes[$derivativeType]['minWidth'] / $targetWidth;
                     $derivativeTypes[$derivativeType]['maxHeight'] = $correction * $derivativeTypes[$derivativeType]['maxHeight'];
-                    echo "Correction of " . $correction . " to "  .$derivativeTypes[$derivativeType]['maxHeight'] .  "\n";
+                    echo "Correction of " . $correction . " to " . $derivativeTypes[$derivativeType]['maxHeight'] . "\n";
                     $targetDPIs = floor($derivativeTypes[$derivativeType]['maxHeight'] * $original['dpis'] / $original['px']['height']);
                     //$targetWidth = round($targetDPIs * $original['px']['width'] / $original['dpis']);
                     //$targetHeight = round($targetDPIs * $original['px']['height'] / $original['dpis']);
@@ -249,8 +256,8 @@ function generateDerivative($input, $output, $derivativeType)
 
 
 //GET COMMAND LINE OPTIONS
-//i=input file; o=output file; l=derivative level
-$options = getopt("i:o:l:");
+//i=input file; o=output file; l=derivative level; h=px height; w=px width;x=dpi x, y=dpi y, z=depth
+$options = getopt("i:o:l:p:h:w:x:y:z:");
 
 
 //CHECK COMMAND LINE OPTIONS
@@ -271,6 +278,30 @@ if (isset($options['l'])) {
     exit("\nDERIVATIVE TYPE NOT DEFINED\n");
 }
 
+if (isset($options['p'])) {
+    $p = explode(',', $options['p']);
+    foreach ($p as $k => $v) {
+        $pp = explode('=', $v);
+        $options[$pp[0]] = $pp[1];
+    }
+}
+
+if (!isset($options['w'])) {
+    exit("\nWIDTH NOT DEFINED\n");
+}
+
+if (!isset($options['h'])) {
+    exit("\nHEIGHT NOT DEFINED\n");
+}
+
+if (!isset($options['x'])) {
+    exit("\nDPI x NOT DEFINED\n");
+}
+
+if (!isset($options['y'])) {
+    exit("\nDPI y NOT DEFINED\n");
+}
+
 // i = inputfile; o = outputfile; l=derivative level
-generateDerivative($options['i'], $options['o'], $options['l']);
+generateDerivative($options['i'], $options['o'], $options['l'], $options['w'], $options['h'], $options['x'], $options['y'], $options['z']);
 ?>
