@@ -8,6 +8,7 @@
 
 source $FLOWS_HOME/src/main/global/setup.sh $0 "$@"
 
+targetLevel=level2
 originals_folder=$fileSet/.level1
 echo "Start creating custom level 2...">>$log
 if [ ! -d $originals_folder ] ; then
@@ -22,7 +23,7 @@ if [ ! -d $originals_folder ] ; then
     exit 0
 fi
 
-dir_target=$(dirname $originals_folder)/.$targetLevel
+dir_target=$fileSet/.$targetLevel
 
 for item_folder in $originals_folder/*
 do
@@ -30,13 +31,13 @@ do
     find $item_folder -type f > $work/$targetLevel.txt
     while read file_original
     do
-        empty=""
+		folder_item=$dir_target/$item
+		if [ ! -d $folder_item ] ; then
+			mkdir -p $folder_item
+		fi
         filename=$(basename $file_original)
-        file_target=$dir_target/${filename%%.*}
-        if [ ! -d $dir_target ] ; then
-            mkdir -p $dir_target
-        fi
-        echo php ./image.derivative.php -i $file_original -o $file_target -l $targetLevel
+        file_target=$folder_item/${filename%%.*}
+        php ./image.derivative.php -i $(cygpath --windows $file_original) -o $(cygpath --windows $file_target) -l $targetLevel >> $log
         rc=$?
         if [[ $rc != 0 ]] ; then
             echo "Problem creating $dir_target">>$log
