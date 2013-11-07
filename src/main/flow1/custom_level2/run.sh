@@ -37,7 +37,7 @@ do
 		fi
         filename=$(basename $file_original)
         file_target=$folder_item/${filename%%.*}
-        imparms=$(identify -format '%h,%w,%x,%y,%z' $file_original)
+        imparms=$(identify -format 'h=%h,w=%w,x=%x,y=%y,z=%z' $file_original)
         php ./image.derivative.php -i $(cygpath --windows $file_original) -o $(cygpath --windows $file_target) -l $targetLevel -p "$imparms" >> $log
         #php ./image.derivative.php -i $file_original -o $file_target -l $targetLevel -p "$imparms"
         rc=$?

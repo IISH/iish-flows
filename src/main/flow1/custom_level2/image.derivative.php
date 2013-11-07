@@ -151,6 +151,10 @@ function generateDerivative($input, $output, $derivativeType, $width, $height, $
             $targetHeight = round($targetDPIs * $original['px']['height'] / $original['dpis']);
 
             // Did this compromise the minHeight ? If so we widen the maxWidth
+            echo "$original is \n";
+            print_r($original);
+            echo "dpisUnit is " . $original['dpisUnit'] . "\n";
+            echo "depth is " . $original['depth'] . "\n";
             echo "targetWidth is " . $targetWidth . "\n";
             echo "targetHeight is " . $targetHeight . "\n";
             echo "minHeight is " . $derivativeTypes[$derivativeType]['minHeight'] . "\n";
@@ -177,9 +181,13 @@ function generateDerivative($input, $output, $derivativeType, $width, $height, $
             //$targetHeight = round($targetDPIs * $original['px']['height'] / $original['dpis']);
 
             // Did this compromise the minWidth ? If so we widen the maxHeight
+            echo "$original is \n";
+            print_r($original);
+            echo "dpisUnit is " . $original['dpisUnit'] . "\n";
+            echo "depth is " . $original['depth'] . "\n";
             echo "targetWidth is " . $targetWidth . "\n";
-            echo "targetHeight is " . $targetHeight . "\n";;
-            echo "minWidth is " . $derivativeTypes[$derivativeType]['minWidth'] . "\n";
+            echo "targetHeight is " . $targetHeight . "\n";
+            echo "minHeight is " . $derivativeTypes[$derivativeType]['minHeight'] . "\n";
             echo "original width is " . $original['px']['width'] . "\n";
             echo "original height is " . $original['px']['height'] . "\n";
             if (isset($derivativeTypes[$derivativeType]['minWidth'])) {
@@ -280,9 +288,9 @@ if (isset($options['l'])) {
 
 if (isset($options['p'])) {
     $p = explode(',', $options['p']);
-    foreach ($p as $k => $v) {
-        $pp = explode('=', $v);
-        $options[$pp[0]] = $pp[1];
+    foreach ($p as $option) {
+        $v = explode('=', $option);
+        $options[$v[0]] = $v[1];
     }
 }
 
