@@ -54,15 +54,15 @@ $derivativeTypes['level2']['targetDPI'][2]['higher'] = 400;
 $derivativeTypes['level2']['targetDPI'][2]['lower'] = 99999;
 $derivativeTypes['level2']['targetDPI'][2]['target'] = 'half';
 
-$derivativeTypes['level2']['minWidth'] = 800; // PX
-$derivativeTypes['level2']['minHeight'] = 800; // PX
+$derivativeTypes['level2']['minWidth'] = 600; // PX
+$derivativeTypes['level2']['minHeight'] = 600; // PX
 
 $derivativeTypes['level2']['maxWidth'] = 1500; //PX
 $derivativeTypes['level2']['maxHeight'] = 1500; //PX
 
 $derivativeTypes['level2']['encode'] = 'JPEG';
 $derivativeTypes['level2']['extension'] = 'jpg';
-$derivativeTypes['level2']['quality'] = 75;
+//$derivativeTypes['level2']['quality'] = 75;
 
 
 //D3
