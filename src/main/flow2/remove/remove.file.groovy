@@ -47,7 +47,7 @@ def readInstruction(File instruction, def good, def bad) {
 }
 
 def inSor(def l) {
-	String url = "http://disseminate.objectrepository.org/metadata/$l.pid?accept=text/xml"
+	String url = "http://disseminate.objectrepository.org/metadata/$l.pid?format=xml"
 	def orfiles = new XmlSlurper().parse(url).declareNamespace(ns: 'http://objectrepository.org/orfiles/1.0/')
 	def md5 = orfiles.'ns:orfile'.'ns:master'.'ns:md5'
 	compare( md5.text(), l.md5 )

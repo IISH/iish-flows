@@ -1,6 +1,17 @@
 import groovy.xml.StreamingMarkupBuilder
 import java.security.MessageDigest
 
+/**
+ * SorInstruction
+ *
+ * Creates a OR instruction for the submission package.
+ *
+ * The procedure iterates recursively through the fileset;
+ * For each file the md5 sum is calculated.
+ * The extension of the file is compared to the mimeRepository table and the probably content type is retrieved.
+ *
+ */
+
 class SorInstruction {
 
     private def orAttributes
