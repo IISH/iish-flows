@@ -1,6 +1,15 @@
 import groovy.xml.StreamingMarkupBuilder
 import java.security.MessageDigest
 
+/**
+ * SorInstruction
+ *
+ * Creates a OR instruction for the submission package.
+ *
+ * The procedure iterates line by line through a csv to get the desired md5 and content type values.
+ *
+ */
+
 class SorInstruction {
 
     private def orAttributes
