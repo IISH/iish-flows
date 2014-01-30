@@ -25,7 +25,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 # Produce instruction and upload the filee
-groovy $(cygpath --windows "$global_home/instruction.groovy") -na $na -fileSet "$fileSet_windows" -autoIngestValidInstruction true -label "$archiveID $flow2_client" -notificationEMail $flow2_notificationEMail -recurse true>>$log
+groovy $(cygpath --windows "$global_home/instruction.groovy") -na $na -fileSet "$fileSet_windows" -autoIngestValidInstruction true -label "$archiveID $flow2_client" -action upsert -notificationEMail $flow2_notificationEMail -recurse true>>$log
 ftp_script=$ftp_script_base.instruction.txt
 $global_home/ftp.sh "$ftp_script" "put $fileSet_windows\instruction.xml $archiveID/instruction.xml" "$log"
 rc=$?
