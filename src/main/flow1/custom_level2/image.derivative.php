@@ -62,7 +62,7 @@ $derivativeTypes['level2']['maxHeight'] = 1500; //PX
 
 $derivativeTypes['level2']['encode'] = 'JPEG';
 $derivativeTypes['level2']['extension'] = 'jpg';
-//$derivativeTypes['level2']['quality'] = 75;
+$derivativeTypes['level2']['quality'] = 75;
 
 
 //D3

@@ -40,7 +40,7 @@ def readInstruction(File instruction, def good, def bad) {
 			good << "http://hdl.handle.net/$l.pid?locatt=view:level2"
 		}
 	    else {
-			bad << "$l.pid met md5 $md5"
+			bad << "$l.pid not in the object repository."
             }
 	}
     }
