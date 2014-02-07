@@ -3,7 +3,7 @@
 # run.sh
 #
 # Usage:
-# ftp.sh [na] [folder name]
+# run.sh [na] [folder name]
 
 source $FLOWS_HOME/src/main/global/setup.sh $0 "$@"
 
