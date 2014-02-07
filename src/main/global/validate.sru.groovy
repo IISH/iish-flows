@@ -72,7 +72,7 @@ class validateSru {
         int i = f.name.lastIndexOf('.')
         files++
         String _location = folder + "/" + f.name
-        String _pid = f.name.replaceFirst(~/\.[^\.]+$/, '') // we make the PID the file name
+        String _pid = f.name.replaceFirst(~/\.[^\.]+$/, '').trim() // we make the PID the file name
         if (_pid) {
             if (_pid.matches(pattern)) {
                 def marc001 = callSru(_pid)

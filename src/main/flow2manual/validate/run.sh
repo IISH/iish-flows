@@ -7,7 +7,7 @@
 
 source $FLOWS_HOME/src/main/global/setup.sh $0 "$@"
 
-groovy $(cygpath --windows "$global_home/validate.sru.groovy") -work "$work" -na $na -fileSet "$fileSet_windows" -sruServer "$sru" -recurse true>>$log
+groovy $(cygpath --windows "$global_home/validate.sru.groovy") -work $(cygpath --windows "$work") -na $na -fileSet "$fileSet_windows" -sruServer "$sru" -recurse true>>$log
 rc=$?
 if [[ $rc != 0 ]] ; then
     echo "There were errors during the validation routine." >> $log
