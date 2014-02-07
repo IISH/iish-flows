@@ -47,8 +47,6 @@ class validateSru {
             }
         }
         writer.close()
-
-        if (files == 0) file.delete()
     }
 
     private def getFolders(File folder, def location) {

@@ -16,10 +16,13 @@ fi
 
 # Stop if we find problems
 validate_file="$work/validation.txt"
-if [ -f $validate ] ; then
-    count=$(grep -c mislukt $validate)
+if [ -f $validate_file ] ; then
+    count=$(grep -c mislukt $validate_file)
     if [[ $count != 0 ]] ; then
         echo "There where validation issues with ${count} files. Not ingesting." >> $log
         exit -1
     fi
+else
+    echo "No validation file found at ${validate_file}"
+    exit -1
 fi
