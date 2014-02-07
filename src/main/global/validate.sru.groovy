@@ -130,7 +130,7 @@ for (int i = 0; i < args.length; i++) {
     }
 }
 
-["fileSet", "na", "sruServer", "sruQuery", "work"].each {
+["fileSet", "na", "sruServer", "work"].each {
     assert arguments[it], "Need required argument -$it [value]"
 }
 
