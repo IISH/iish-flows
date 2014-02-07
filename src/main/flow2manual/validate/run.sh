@@ -2,10 +2,19 @@
 #
 # validate.sh
 #
+# We must be in a datestamp
 # See if the identifiers are declared in our metadata catalog.
 #
 
 source $FLOWS_HOME/src/main/global/setup.sh $0 "$@"
+
+# Are we in a valid directory ?
+groovy $(cygpath --windows "$global_home/valid.datestamp.groovy") $fileSet
+rc=$?
+if [[ $rc != 0 ]] ; then
+    echo "There were errors during the validation routine. Invalid foldername. It should be a datestamp, like ${date}" >> $log
+    exit -1
+fi
 
 groovy $(cygpath --windows "$global_home/validate.sru.groovy") -work $(cygpath --windows "$work") -na $na -fileSet "$fileSet_windows" -sruServer "$sru" -recurse true>>$log
 rc=$?
