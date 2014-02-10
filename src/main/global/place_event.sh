@@ -22,13 +22,14 @@ fi
 key=$flow"_hotfolders"
 hotfolders=$(eval "echo \$$key")
 
-for hotfolder in "$flow2_hotfolders"
+for hotfolder in "$flow_hotfolders"
 do
 	if [ ! -d "$hotfolder" ] ; then
 		key=$flow"_share"
 		share=$(eval "echo \$$key")
 		net use $share
 	fi
+
     for na in $hotfolder/*
     do
         for fileSet in $na/*

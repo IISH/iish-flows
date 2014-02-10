@@ -36,7 +36,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 echo "Create instruction for our files">>$log
-groovy $(cygpath --windows "$global_home/instruction.csv.groovy") -fileSet $(cygpath --windows "$fileSet") -csv $(cygpath --windows "$cf") -label "$archiveID $flow1_client" -access restricted -action add -contentType image/tiff -autoIngestValidInstruction false -notificationEMail $flow1_notificationEMail  -plan "StagingfileIngestLevel3,StagingfileIngestLevel2,StagingfileIngestLevel1,StagingfileBindPIDs,StagingfileIngestMaster">>$log
+groovy $(cygpath --windows "$global_home/instruction.csv.groovy") -fileSet $(cygpath --windows "$fileSet") -csv $(cygpath --windows "$cf") -label "$archiveID $flow_client" -access restricted -action add -contentType image/tiff -autoIngestValidInstruction $flow_autoIngestValidInstruction -notificationEMail $flow_notificationEMail  -plan "StagingfileIngestLevel3,StagingfileIngestLevel2,StagingfileIngestLevel1,StagingfileBindPIDs,StagingfileIngestMaster">>$log
 rc=$?
 if [[ $rc != 0 ]] ; then
 	echo "Problem when creating the instruction.">>$log

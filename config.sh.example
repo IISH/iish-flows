@@ -8,11 +8,15 @@ flows_home=
 HOMEPATH=
 global_home=$flows_home/src/main/global
 
+# Dynamic keys
+flow_keys=letter share client autoIngestValidInstruction notificationEMail
+
 # Flow 1
 flow1_letter=
 flow1_share="$flow1_letter: [share here] /PERSISTENT:NO"
 flow1_hotfolders="/cygdrive/$flow1_letter/[share name here] /cygdrive/$flow1_letter/[another share here]"
 flow1_client=flow1@localhost
+flow1_autoIngestValidInstruction=false
 flow1_notificationEMail=
 
 # Flow 2
@@ -20,13 +24,7 @@ flow2_letter=
 flow2_share="$flow1_letter: [share here] /PERSISTENT:NO"
 flow2_hotfolders="/cygdrive/$flow2_letter/[share name here] /cygdrive/$flow2_letter/[another share here]"
 flow2_client=flow2@localhost
-flow2_notificationEMail=
-
-# Flow 2 manual
-flow2_letter=
-flow2_share="$flow1_letter: [share here] /PERSISTENT:NO"
-flow2_hotfolders="/cygdrive/$flow2_letter/[share name here] /cygdrive/$flow2_letter/[another share here]"
-flow2_client=flow2@localhost
+flow1_autoIngestValidInstruction=true
 flow2_notificationEMail=
 
 # Flow 3
@@ -34,7 +32,16 @@ flow3_letter=
 flow3_share="$flow1_letter: [share here] /PERSISTENT:NO"
 flow3_hotfolders="/cygdrive/$flow1_letter/[share name here] /cygdrive/$flow3_letter/[another share here]"
 flow3_client=flow1@localhost
+flow4_autoIngestValidInstruction=false
 flow3_notificationEMail=
+
+# Flow 4
+flow4_letter=
+flow4_share="$flow1_letter: [share here] /PERSISTENT:NO"
+flow4_hotfolders="/cygdrive/$flow2_letter/[share name here] /cygdrive/$flow2_letter/[another share here]"
+flow4_client=flow2@localhost
+flow4_autoIngestValidInstruction=false
+flow4_notificationEMail=
 
 FTP_CONNECTION="[ftp domain]-explicittls -passive"
 datestamp=$(date +"%Y-%m-%d")

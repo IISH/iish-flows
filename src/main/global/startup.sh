@@ -31,7 +31,7 @@ do
                             event="$fileSet/$(basename $run_folder).txt"
                             if [ -f "$event" ] ; then
 								echo "$event">>/tmp/event.txt
-								$run_script "$fileSet" &
+								$run_script "$fileSet" "$flow_folder" &
                             fi
                         fi
                     done

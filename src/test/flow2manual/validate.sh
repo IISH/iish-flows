@@ -13,12 +13,12 @@ fi
 global_home=$flows_home/src/main/global
 
 na=12345
-fileSet=$flows_home/src/test/flow2manual/$na
+fileSet=$flows_home/src/test/flow4/$na
 work=$fileSet/work
 if [ ! -d $work ] ; then
     mkdir $work
 fi
 log=$work/log.txt
 
-cd $flows_home/src/main/flow2manual/validate
+cd $flows_home/src/main/flow4/validate
 source ./run.sh
