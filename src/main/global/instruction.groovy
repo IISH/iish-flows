@@ -71,6 +71,10 @@ class SorInstruction {
 
         if (f.name.equals("instruction.xml")) return
         if (f.name[0] == '.') return
+        if ( f.size() == 0) {
+            println("File " + f.absolutePath + " has zero bytes.")
+            System.exit(1)
+        }
 
         int i = f.name.lastIndexOf('.')
         def extension = (i == -1 || i == f.name.length() - 1) ? null : f.name.substring(i + 1)
