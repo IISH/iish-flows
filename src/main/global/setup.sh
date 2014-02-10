@@ -31,20 +31,6 @@ if [ -z "$flow_keys" ] ; then
     exit -1
 fi
 
-
-# Assign values
-for key in $flow_keys
-do
-    v=$(eval "echo \$${flow}_${key}")
-    k="flow_${key}"
-    eval ${k}=$(echo \""${v}"\")
-    test=$(eval "echo \${$k}")
-    if [ -z "$test" ] ; then
-        echo "Key flow_${key} may not be empty and should be set in config.sh"
-        exit -1
-    fi
-done
-
 mkdir -p $work
 rm -f "$fileSet/$event.txt"
 
@@ -58,6 +44,19 @@ echo "flow: $flow">>$log
 echo "event: $event">>$log
 echo "work: $work">>$log
 
+# Assign values
+for key in $flow_keys
+do
+    v=$(eval "echo \$${flow}_${key}")
+    k="flow_${key}"
+    eval ${k}=$(echo \""${v}"\")
+    test=$(eval "echo \${$k}")
+	echo "${key}=${v}">>$log
+    if [ -z "$test" ] ; then
+        echo "Key flow_${key} may not be empty and should be set in config.sh">>$log
+        exit -1
+    fi
+done
 
 if [[ ! -d "$fileSet" ]] ; then
     echo "Cannot find fileSet $fileSet">>$log
