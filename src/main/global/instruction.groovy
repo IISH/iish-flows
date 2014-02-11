@@ -84,7 +84,7 @@ class SorInstruction {
         files++
         String _location = folder + "/" + f.name
 
-        String _pid = f.name.replaceFirst(~/\.[^\.]+$/, '') // we make the PID the file name
+        String _pid = f.name.replaceFirst(~/\.[^\.]+$/, '').toUpperCase() // we make the PID the file name
         assert _pid
         _pid = orAttributes.na + "/" + _pid
 
