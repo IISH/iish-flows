@@ -24,13 +24,11 @@ lastpid=""
 file=$work/pid.log
 while read line
 do
-    while IFS=, read objnr ID master jpeg volgnr PID; do
-        echo "${na}/${archiveID}.${objnr}_${volgnr}">>$log
+    while IFS=, read objnr ID master jpeg volgnr PID
+    do
         if [[ $volgnr == 2 ]]; then
-            echo "Try volgnr = 2">>$log
             lastpid=$PID
             objid=$na/$archiveID.$ID
-			echo "objid=${objid}">>$log
             soapenv="<?xml version='1.0' encoding='UTF-8'?>  \
 				<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:pid='http://pid.socialhistoryservices.org/'>  \
 					<soapenv:Body> \
@@ -63,11 +61,10 @@ do
 				rm $file
 				echo "Pid ${objid} bind ok">>$log
 			else
-				echo "ERROR: Pid ${$objid} not returned by webservice. Got ${pidCheck}">>$log
+				echo "ERROR: Pid ${objid} not returned by webservice. Got ${pidCheck}">>$log
 				cat $file >> $log
 				exit -1
 			fi
-
         fi
     done
 done < $cf
