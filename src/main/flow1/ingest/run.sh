@@ -24,5 +24,5 @@ if [ "$md5" != "$md5check" ] ; then
 fi
 
 source ./file.sh
-source ./pid.sh
+source ../pid/run.sh
 source ./ead.sh

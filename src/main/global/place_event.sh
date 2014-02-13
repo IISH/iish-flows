@@ -22,7 +22,7 @@ fi
 key=$flow"_hotfolders"
 hotfolders=$(eval "echo \$$key")
 
-for hotfolder in "$flow_hotfolders"
+for hotfolder in $hotfolders
 do
 	if [ ! -d "$hotfolder" ] ; then
 		key=$flow"_share"
