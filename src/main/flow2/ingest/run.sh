@@ -26,6 +26,13 @@ fi
 
 # Produce instruction and upload the filee
 groovy $(cygpath --windows "$global_home/instruction.groovy") -na $na -fileSet "$fileSet_windows" -autoIngestValidInstruction $flow_autoIngestValidInstruction -label "$archiveID $flow_client" -action upsert -notificationEMail $flow_notificationEMail -recurse true>>$log
+rc=$?
+if [[ $rc != 0 ]] ; then
+    echo "Problem when creating the instruction.">>$log
+    exit -1
+fi
+
+
 ftp_script=$ftp_script_base.instruction.txt
 $global_home/ftp.sh "$ftp_script" "put $fileSet_windows\instruction.xml $archiveID/instruction.xml" "$log"
 rc=$?

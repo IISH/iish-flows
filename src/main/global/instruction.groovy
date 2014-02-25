@@ -72,7 +72,7 @@ class SorInstruction {
         if (f.name.equals("instruction.xml")) return
         if (f.name[0] == '.') return
         if ( f.size() == 0) {
-            println("File " + f.absolutePath + " has zero bytes.")
+            println("Fatal: file " + f.absolutePath + " has zero bytes.")
             System.exit(1)
         }
 

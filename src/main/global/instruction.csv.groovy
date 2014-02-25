@@ -49,7 +49,7 @@ class SorInstruction {
                         files++
                         final file_master = new File(fileSetFolder.parentFile, split[2])
                         if ( file_master.size() == 0) {
-                            println("File " + file_master.absolutePath + " has zero bytes.")
+                            println("Fatal: file " + file_master.absolutePath + " has zero bytes.")
                             System.exit(1)
                         }
                         String _md5 = generateMD5(file_master)
