@@ -25,7 +25,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 # Produce instruction and upload the filee
-groovy $(cygpath --windows "$global_home/instruction.groovy") -na $na -fileSet "$fileSet_windows" -autoIngestValidInstruction $flow_autoIngestValidInstruction -label "$archiveID $flow_client" -action upsert -notificationEMail $flow_notificationEMail -recurse true>>$log
+groovy $(cygpath --windows "$global_home/instruction.groovy") -na $na -fileSet "$fileSet_windows" -access $flow_access -autoIngestValidInstruction $flow_autoIngestValidInstruction -label "$archiveID $flow_client" -action upsert -notificationEMail $flow_notificationEMail -recurse true>>$log
 rc=$?
 if [[ $rc != 0 ]] ; then
     echo "Problem when creating the instruction.">>$log
