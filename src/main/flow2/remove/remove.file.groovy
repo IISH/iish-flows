@@ -1,14 +1,23 @@
 import javax.xml.stream.XMLInputFactory
 import javax.xml.stream.XMLStreamReader
 
-assert args.size() == 1, "Expect one argument: full path of the instruction file"
 
-File instruction = new File(args[0])
+def arguments = [:]
+for (int i = 0; i < args.length; i++) {
+    if (args[i][0] == '-') {
+        arguments.put(args[i].substring(1), args[i + 1])
+    }
+}
+
+assert arguments.file, "Expect -file argument: full path of the instruction file"
+assert arguments.access_token, "Expect -access_token argument: object repository webservice key"
+
+File instruction = new File(arguments.file)
 assert instruction.exists()
 
 def good = []
 def bad = []
-readInstruction(instruction, good, bad)
+readInstruction(instruction, good, bad, arguments.access_token)
 
 if ( !bad && !good )
     println('No files.')
@@ -29,7 +38,7 @@ if (good) {
     }
 }
 
-def readInstruction(File instruction, def good, def bad) {
+def readInstruction(File instruction, def good, def bad, def access_token) {
 
     final XMLInputFactory xif = XMLInputFactory.newInstance()
     final XMLStreamReader xsr = xif.createXMLStreamReader(instruction.newReader())
@@ -45,7 +54,8 @@ def readInstruction(File instruction, def good, def bad) {
             }
             if (inSor(l)) {
                 new File(instruction.parentFile.parentFile, l.location).delete()
-                good << "http://hdl.handle.net/$l.pid?locatt=view:level2"
+                // ToDo: place key
+                good << "http://hdl.handle.net/$l.pid?locatt=view:level2&urlappend=%3Faccess_token%3D" + access_token
             } else {
                 bad << "$l.pid not in the object repository."
             }
