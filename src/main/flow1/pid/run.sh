@@ -44,6 +44,7 @@ do
 										<pid:location weight='0' href='$or/file/level1/$PID' view='level1'/> \
 										<pid:location weight='0' href='$or/file/level2/$PID' view='level2'/> \
 										<pid:location weight='0' href='$or/file/level3/$PID' view='level3'/> \
+										<pid:location weight='0' href='$or/file/level4/$PID' view='level4'/> \
 									</pid:locAtt> \
 							</pid:handle> \
 						</pid:UpsertPidRequest> \
@@ -82,9 +83,10 @@ done < $cf
 								<pid:location weight='0' href='$catalog/$archiveID' view='catalog'/> \
 								<pid:location weight='0' href='$oai?verb=GetRecord&amp;identifier=oai:socialhistoryservices.org:$na/$archiveID&amp;metadataPrefix=ead' view='ead'/> \
 								<pid:location weight='0' href='$or/file/master/$lastpid' view='master'/> \
+								<pid:location weight='0' href='$or/file/level1/$lastpid' view='level1'/> \
 								<pid:location weight='0' href='$or/file/level2/$lastpid' view='level2'/> \
 								<pid:location weight='0' href='$or/file/level3/$lastpid' view='level3'/>
-								<pid:location weight='0' href='$or/file/level1/$lastpid' view='level1'/> \
+								<pid:location weight='0' href='$or/file/level4/$lastpid' view='level4'/>
 							</pid:locAtt> \
 					</pid:handle> \
 				</pid:UpsertPidRequest> \
