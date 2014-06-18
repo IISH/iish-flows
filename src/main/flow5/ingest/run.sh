@@ -14,9 +14,10 @@ if [ -f "$file_instruction" ] ; then
 	exit 0
 fi
 
-# Harvest and create a list of updates
+# Harvest and create a list of updates. We use the folder name as datestamp for the -from parameter.
+from=$(basename $fileSet)
 file_access=$work/access.txt
-groovy oai2harvester.groovy -na $na -baseURL $oai -verb ListRecords -from $datestamp -metadataPrefix marcxml > $file_access
+groovy oai2harvester.groovy -na $na -baseURL $oai -verb ListRecords -from $from -metadataPrefix marcxml > $file_access
 
 # Filter out from access.txt a new file access_exist. It will conly contain references if the pid values exist in the
 # object repository and the access status differs.
