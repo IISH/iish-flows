@@ -23,48 +23,46 @@ echo "Declare pids...">>$log
 lastpid=""
 while read line
 do
-    while IFS=, read objnr ID master jpeg volgnr PID
-    do
-        if [[ $volgnr == 2 ]]; then
-            lastpid=$PID
-            objid=$na/$archiveID.$ID
-            soapenv="<?xml version='1.0' encoding='UTF-8'?>  \
-				<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:pid='http://pid.socialhistoryservices.org/'>  \
-					<soapenv:Body> \
-						<pid:UpsertPidRequest> \
-							<pid:na>$na</pid:na> \
-							<pid:handle> \
-								<pid:pid>$objid</pid:pid> \
-								<pid:locAtt> \
-										<pid:location weight='1' href='$catalog/$archiveID/ArchiveContentList#$ID'/> \
-										<pid:location weight='0' href='$catalog/$archiveID/ArchiveContentList#$ID' view='catalog'/> \
-										<pid:location weight='0' href='$or/mets/$objid' view='mets'/> \
-										<pid:location weight='0' href='$or/pdf/$objid' view='pdf'/> \
-										<pid:location weight='0' href='$or/file/master/$PID' view='master'/> \
-										<pid:location weight='0' href='$or/file/level1/$PID' view='level1'/> \
-										<pid:location weight='0' href='$or/file/level2/$PID' view='level2'/> \
-										<pid:location weight='0' href='$or/file/level3/$PID' view='level3'/> \
-										<pid:location weight='0' href='$or/file/level4/$PID' view='level4'/> \
-									</pid:locAtt> \
-							</pid:handle> \
-						</pid:UpsertPidRequest> \
-					</soapenv:Body> \
-				</soapenv:Envelope>"
+    IFS=, read objnr ID master jpeg volgnr PID <<< $line
+    if [[ $volgnr == 2 ]]; then
+        lastpid=$PID
+        objid=$na/$archiveID.$ID
+        soapenv="<?xml version='1.0' encoding='UTF-8'?>  \
+            <soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:pid='http://pid.socialhistoryservices.org/'>  \
+                <soapenv:Body> \
+                    <pid:UpsertPidRequest> \
+                        <pid:na>$na</pid:na> \
+                        <pid:handle> \
+                            <pid:pid>$objid</pid:pid> \
+                            <pid:locAtt> \
+                                    <pid:location weight='1' href='$catalog/$archiveID/ArchiveContentList#$ID'/> \
+                                    <pid:location weight='0' href='$catalog/$archiveID/ArchiveContentList#$ID' view='catalog'/> \
+                                    <pid:location weight='0' href='$or/mets/$objid' view='mets'/> \
+                                    <pid:location weight='0' href='$or/pdf/$objid' view='pdf'/> \
+                                    <pid:location weight='0' href='$or/file/master/$PID' view='master'/> \
+                                    <pid:location weight='0' href='$or/file/level1/$PID' view='level1'/> \
+                                    <pid:location weight='0' href='$or/file/level2/$PID' view='level2'/> \
+                                    <pid:location weight='0' href='$or/file/level3/$PID' view='level3'/> \
+                                    <pid:location weight='0' href='$or/file/level4/$PID' view='level4'/> \
+                                </pid:locAtt> \
+                        </pid:handle> \
+                    </pid:UpsertPidRequest> \
+                </soapenv:Body> \
+            </soapenv:Envelope>"
 
-			
-			echo "Sending $objid" >> $log
-			wget -O /dev/null --header="Content-Type: text/xml" \
-				--header="Authorization: oauth $pidwebserviceKey" --post-data "$soapenv" \
-				--no-check-certificate $pidwebserviceEndpoint
 
-			rc=$?
-			if [[ $rc != 0 ]]; then
-				echo "Error from PID webservice: $rc">>$log
-				echo $soapenv >> $log
-				cat $file >> $log
-			fi
+        echo "Sending $objid" >> $log
+        wget -O /dev/null --header="Content-Type: text/xml" \
+            --header="Authorization: oauth $pidwebserviceKey" --post-data "$soapenv" \
+            --no-check-certificate $pidwebserviceEndpoint
+
+        rc=$?
+        if [[ $rc != 0 ]]; then
+            echo "Error from PID webservice: $rc">>$log
+            echo $soapenv >> $log
+            cat $file >> $log
         fi
-    done
+    fi
 done < $cf
 
 

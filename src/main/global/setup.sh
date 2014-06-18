@@ -2,14 +2,24 @@
 
 source $FLOWS_HOME/config.sh
 
-event=$(dirname $1)			# Gets the parent folder of the application script
-fileSet=$2                  # The fileSet
-flow=$3                     # The flow ( flow1, flow2, etc )
-na=$(dirname $fileSet)		# Gets the parent folder
-na=$(basename $na)			# Now proceeds to the naming authority
-cd "$event"					# Make it the current directory
-event=$(basename $event)	# Now proceeds to the actual command
-work=$fileSet/.$event		# The Working directory for logging and reports
+event=$(dirname $1)			    # Gets the parent folder of the application script
+fileSet=$2                      # The fileSet
+flow=$3                         # The flow ( flow1, flow2, etc )
+fs_parent=$(dirname $fileSet)	# Gets the parent folder
+na=$(basename $fs_parent)		# Now proceeds to the naming authority
+cd "$event"					    # Make it the current directory
+event=$(basename $event)	    # Now proceeds to the actual command
+work=$fileSet/.$event		    # The Working directory for logging and reports
+
+if [ -z "$fs_parent" ] ; then
+    echo "Parent of the fileset not set."
+    exit -1
+fi
+
+if [ ! -d "$fs_parent" ] ; then
+    echo "Parent of the fileset not found: ${fs_parent}"
+    exit -1
+fi
 
 if [ -z "$event" ] ; then
     echo "event not set."

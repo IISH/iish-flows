@@ -5,6 +5,10 @@
 #
 # Create a folder with the given datestamp and an ingest command.
 
+# We must be in a system folder
+
+source $FLOWS_HOME/src/main/global/setup.sh $0
+
 if [ -z "$datestamp" ] ; then
     echo "No datestamp was set." >> $log
     exit -1

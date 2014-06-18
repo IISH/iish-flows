@@ -9,6 +9,7 @@ for (int i = 0; i < args.length; i++) {
     }
 }
 
+assert arguments.or, "Expect -or argument: base url of the object repository"
 assert arguments.file, "Expect -file argument: full path of the instruction file"
 assert arguments.access_token, "Expect -access_token argument: object repository webservice key"
 
@@ -17,7 +18,7 @@ assert instruction.exists()
 
 def good = []
 def bad = []
-readInstruction(instruction, good, bad, arguments.access_token)
+readInstruction(instruction, good, bad, arguments)
 
 if ( !bad && !good )
     println('No files.')
@@ -38,7 +39,7 @@ if (good) {
     }
 }
 
-def readInstruction(File instruction, def good, def bad, def access_token) {
+def readInstruction(File instruction, def good, def bad, def arguments) {
 
     final XMLInputFactory xif = XMLInputFactory.newInstance()
     final XMLStreamReader xsr = xif.createXMLStreamReader(instruction.newReader())
@@ -52,10 +53,9 @@ def readInstruction(File instruction, def good, def bad, def access_token) {
                 l[it] = xsr.getElementText()
                 assert l[it], "Must have a $it key with a value that is not null"
             }
-            if (inSor(l)) {
+            if (inSor(l, arguments)) {
                 new File(instruction.parentFile.parentFile, l.location).delete()
-                // ToDo: place key
-                good << "http://hdl.handle.net/$l.pid?locatt=view:level2&urlappend=%3Faccess_token%3D" + access_token
+                good << "http://hdl.handle.net/$l.pid?locatt=view:level2&urlappend=%3Faccess_token%3D" + arguments.access_token
             } else {
                 bad << "$l.pid not in the object repository."
             }
@@ -63,8 +63,8 @@ def readInstruction(File instruction, def good, def bad, def access_token) {
     }
 }
 
-def inSor(def l) {
-    String url = "http://disseminate.objectrepository.org/metadata/$l.pid?accept=text/xml&format=xml"
+def inSor(def l, def arguments) {
+    String url = "${arguments.or}/metadata/$l.pid?accept=text/xml&format=xml"
     def xml = null
     try {
         xml = new XmlSlurper().parse(url)
