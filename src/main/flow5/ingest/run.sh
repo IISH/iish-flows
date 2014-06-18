@@ -16,7 +16,7 @@ fi
 
 # Harvest and create a list of updates
 file_access=$work/access.txt
-groovy oai2harvester.groovy -na $na -baseURL $oai -verb ListRecords -metadataPrefix marcxml > $file_access
+groovy oai2harvester.groovy -na $na -baseURL $oai -verb ListRecords -from $datestamp -metadataPrefix marcxml > $file_access
 
 # Filter out from access.txt a new file access_exist. It will conly contain references if the pid values exist in the
 # object repository and the access status differs.
@@ -29,10 +29,6 @@ do
         echo $line
     else
         IFS=, read id access pid <<< $line
-        echo "line=${line}" >> $log
-        echo "id=${id}"     >> $log
-        echo "access=${access}"     >> $log
-        echo "pid=${pid}"                   >> $log
         currentStatus=$(groovy currentStatus.groovy "${or}/metadata/${pid}?accept=text/xml&format=xml")
         if [ "$currentStatus" == "$access" ] ; then
             echo "Not updating ${line} because the access values are identical: ${access}=${currentStatus}" >> $log
