@@ -14,8 +14,8 @@ if [ -f "$file_instruction" ] ; then
 	exit 0
 fi
 
-# Harvest and create a list of updates. We use the folder name as datestamp for the -from parameter.
-from=$(basename $fileSet)
+# Harvest and create a list of updates. We harvest everything from the last 5 days.
+from=$(groovy -e "def format = 'yyyy-MM-dd' ; def date = Date.parse(format, '$datestamp').minus(5) ; println(date.format(format))")
 file_access=$work/access.txt
 groovy oai2harvester.groovy -na $na -baseURL $oai -verb ListRecords -from $from -metadataPrefix marcxml > $file_access
 
@@ -30,7 +30,7 @@ do
         echo $line
     else
         IFS=, read id access pid <<< $line
-        currentStatus=$(groovy currentStatus.groovy "${or}/metadata/${pid}?accept=text/xml&format=xml")
+        currentStatus=$(groovy currentOrStatus.groovy "${or}/metadata/${pid}?accept=text/xml&format=xml")
         if [ "$currentStatus" == "$access" ] ; then
             echo "Not updating ${line} because the access values are identical: ${access}=${currentStatus}" >> $log
         else
