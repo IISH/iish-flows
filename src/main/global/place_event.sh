@@ -37,7 +37,7 @@ do
         for fileSet in $na/*
         do
 			if [ -d $fileSet ] ; then
-			    if [[ -z "$filename" ]] || [[ -e $fileSet/$fileName ]] ; then
+			    if [[ -z "$fileName" ]] || [[ -e $fileSet/$fileName ]] ; then
 			        echo $(date)>$fileSet/$event
 			    fi
 			fi
