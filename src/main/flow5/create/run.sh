@@ -24,6 +24,6 @@ if [ -f $instruction ] ; then
 fi
 
 mkdir $fileSet
-echo $fileSet/ingest.txt >> $datestamp
+touch $fileSet/ingest.txt
 
 exit 0

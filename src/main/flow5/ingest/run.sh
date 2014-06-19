@@ -34,6 +34,7 @@ do
         if [ "$currentStatus" == "$access" ] ; then
             echo "Not updating ${line} because the access values are identical: ${access}=${currentStatus}" >> $log
         else
+            # These are the current access policy settings in use.
             case "$currentStatus" in
                 open)
                     echo $line >> $file_access_exist
@@ -48,6 +49,14 @@ do
                     count=$((count + 1))
                     ;;
                 minimal)
+                    echo $line >> $file_access_exist
+                    count=$((count + 1))
+                    ;;
+                thumbnail)
+                    echo $line >> $file_access_exist
+                    count=$((count + 1))
+                    ;;
+                irsh)
                     echo $line >> $file_access_exist
                     count=$((count + 1))
                     ;;
