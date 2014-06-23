@@ -6,7 +6,7 @@ If invalid, we will exit cleanly.
 def fileSet = new File(args[0])
 
 try {
-    new Date().parse("yyyy-mm-dd", fileSet.name)
+    new Date().parse("yyyy-mm-dd", fileSet.name).toString()
 } catch (Exception e) {
     println(e)
     System.exit(1)
