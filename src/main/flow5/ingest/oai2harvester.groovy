@@ -84,7 +84,7 @@ class Oai2Harvester {
 
     static void message(String text) {
 
-        def d = new Date().format("YYYY-MM-dd'T'hh:mm:ss")
+        def d = new Date().format("yyyy-MM-dd'T'hh:mm:ss")
         println('# ' + d + ' ' + text)
     }
 
