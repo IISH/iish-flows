@@ -15,7 +15,7 @@ if [ -f "$file_instruction" ] ; then
 fi
 
 # Harvest and create a list of updates. We harvest everything from the last 5 days.
-from=$(groovy -e "def format = 'yyyy-MM-dd' ; def date = Date.parse(format, '$datestamp').minus(5) ; println(date.format(format))")
+from=$(groovy -e "def format = 'yyyy-MM-dd' ; def date = Date.parse(format, '$datestamp').minus(5) ; print(date.format(format))")
 file_access=$work/access.txt
 groovy oai2harvester.groovy -na $na -baseURL $oai -verb ListRecords -set $flow5_set -from $from -metadataPrefix marcxml > $file_access
 
