@@ -17,7 +17,7 @@ fi
 # Harvest and create a list of updates. We harvest everything from the last 5 days.
 from=$(groovy -e "def format = 'yyyy-MM-dd' ; def date = Date.parse(format, '$datestamp').minus(5) ; println(date.format(format))")
 file_access=$work/access.txt
-groovy oai2harvester.groovy -na $na -baseURL $oai -verb ListRecords -from $from -metadataPrefix marcxml > $file_access
+groovy oai2harvester.groovy -na $na -baseURL $oai -verb ListRecords -set $flow5_set -from $from -metadataPrefix marcxml > $file_access
 
 # Filter out from access.txt a new file access_exist. It will conly contain references if the pid values exist in the
 # object repository and the access status differs.
@@ -49,10 +49,6 @@ do
                     count=$((count + 1))
                     ;;
                 minimal)
-                    echo $line >> $file_access_exist
-                    count=$((count + 1))
-                    ;;
-                thumbnail)
                     echo $line >> $file_access_exist
                     count=$((count + 1))
                     ;;

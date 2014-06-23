@@ -1,4 +1,10 @@
 #!/bin/bash
+#
+# setup.sh
+
+# Initiate and check our variables.
+#
+# Usage: setup.sh [full path of the scripts that called this file] [the fileSet without a trailing slash] [the flow]
 
 source $FLOWS_HOME/config.sh
 

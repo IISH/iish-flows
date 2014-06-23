@@ -23,6 +23,7 @@ if [ -f $instruction ] ; then
     exit -1
 fi
 
+echo "Creating ${fileSet}" >> $log
 mkdir $fileSet
 touch $fileSet/ingest.txt
 

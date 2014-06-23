@@ -108,9 +108,9 @@ class Oai2Harvester {
             it.'@code' == 'm'
         }?.text()) ?: ACCESS_DEFAULT
 
-        // Get the barcodes.
+        // Get the barcodes ( they start with 30051 and have 14 digits ).
         def barcodes = record.datafield?.inject([]) { visitor, it ->
-            def subfield = it.subfield?.find { it.'@code' == 'p' }
+            def subfield = it.subfield?.find { it.'@code' == 'p' && it.text() =~/^30051\d{9}/ }
             if (subfield)
                 visitor << orAttributes.na + '/' + subfield.text()
             visitor
