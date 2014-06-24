@@ -30,7 +30,7 @@ do
         echo $line
     else
         IFS=, read id access pid <<< "$line"
-        # These are the current access policy settings in use.
+        # These are the current access policy settings in use by the object repository.
         case "$currentStatus" in
             open)
                 echo $line >> $file_access_exist
