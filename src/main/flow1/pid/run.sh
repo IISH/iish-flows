@@ -23,7 +23,7 @@ echo "Declare pids...">>$log
 lastpid=""
 while read line
 do
-    IFS=, read objnr ID master jpeg volgnr PID <<< $line
+    IFS=, read objnr ID master jpeg volgnr PID <<< "$line"
     if [[ $volgnr == 2 ]]; then
         lastpid=$PID
         objid=$na/$archiveID.$ID

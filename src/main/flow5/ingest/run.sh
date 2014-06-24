@@ -29,38 +29,33 @@ do
     if [[ "$line" == \#* ]] ; then
         echo $line
     else
-        IFS=, read id access pid <<< $line
-        currentStatus=$(groovy currentOrStatus.groovy "${or}/metadata/${pid}?accept=text/xml&format=xml")
-        if [ "$currentStatus" == "$access" ] ; then
-            echo "Not updating ${line} because the access values are identical: ${access}=${currentStatus}" >> $log
-        else
-            # These are the current access policy settings in use.
-            case "$currentStatus" in
-                open)
-                    echo $line >> $file_access_exist
-                    count=$((count + 1))
-                    ;;
-                restricted)
-                    echo $line >> $file_access_exist
-                    count=$((count + 1))
-                    ;;
-                closed)
-                    echo $line >> $file_access_exist
-                    count=$((count + 1))
-                    ;;
-                minimal)
-                    echo $line >> $file_access_exist
-                    count=$((count + 1))
-                    ;;
-                irsh)
-                    echo $line >> $file_access_exist
-                    count=$((count + 1))
-                    ;;
-                *)
-                    echo "Not updating ${line} because of an unknown status: ${currentStatus}" >> $log
-                    ;;
-            esac
-        fi
+        IFS=, read id access pid <<< "$line"
+        # These are the current access policy settings in use.
+        case "$currentStatus" in
+            open)
+                echo $line >> $file_access_exist
+                count=$((count + 1))
+                ;;
+            restricted)
+                echo $line >> $file_access_exist
+                count=$((count + 1))
+                ;;
+            closed)
+                echo $line >> $file_access_exist
+                count=$((count + 1))
+                ;;
+            minimal)
+                echo $line >> $file_access_exist
+                count=$((count + 1))
+                ;;
+            irsh)
+                echo $line >> $file_access_exist
+                count=$((count + 1))
+                ;;
+            *)
+                echo "Not updating ${line} because of an unknown status: ${currentStatus}" >> $log
+                ;;
+        esac
     fi
 done < $file_access
 
@@ -73,7 +68,7 @@ fi
 echo "<instruction xmlns='http://objectrepository.org/instruction/1.0/' access='$flow_access' autoIngestValidInstruction='$flow_autoIngestValidInstruction' label='$archiveID $flow_client' action='upsert' notificationEMail='$flow_notificationEMail' plan='StagingfileIngestMaster'>" > $file_instruction
 while read line
 do
-    IFS=, read id access pid <<< $line
+    IFS=, read id access pid <<< "$line"
     echo "<stagingfile><pid>${pid}</pid><access>${access}</access><embargo>-1</embargo><embargoAccess>-1</embargoAccess><contentType>-1</contentType><objid>-1</objid><seq>-1</seq><label>-1</label></stagingfile>" >> $file_instruction
 done < $file_access_exist
 echo "</instruction>" >> $file_instruction

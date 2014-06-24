@@ -15,7 +15,6 @@ if [ -f "$file_instruction" ] ; then
 	exit 0
 fi
 
-
 # Upload the files
 ftp_script=$ftp_script_base.files.txt
 $global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|.*/\" $fileSet_windows $archiveID" "$log"
@@ -25,7 +24,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 # Produce instruction
-groovy $(cygpath --windows "$global_home/instruction.groovy") -na $na -fileSet "$fileSet_windows" -access $flow_access -autoIngestValidInstruction $flow_autoIngestValidInstruction -label "$archiveID $flow_client" -action upsert -notificationEMail $flow_notificationEMail -recurse true>>$log
+groovy $(cygpath --windows "$global_home/instruction.groovy") -na $na -fileSet "$fileSet_windows" -access $flow_access -tag 542 -code m -autoIngestValidInstruction $flow_autoIngestValidInstruction -label "$archiveID $flow_client" -action upsert -notificationEMail $flow_notificationEMail -recurse true>>$log
 rc=$?
 if [[ $rc != 0 ]] ; then
     echo "Problem when creating the instruction.">>$log
@@ -35,31 +34,6 @@ fi
 # For each stagingfile in the instruction, replace the access value with the value from the public OAI2 service
 groovy set_access.groovy -instruction file_instruction -or $sruServer
 
-
-#
-#import org.xml.sax.SAXException
-#
-#/**
-# * Get the metadata of the pid.
-# * If found, see if it is equal or different from the access status.
-# */
-#
-#final String url = args[0]
-#
-#def xml = null
-#try {
-#    xml = new XmlSlurper().parse(url)
-#} catch (SAXException e) {
-#    // Assume a file not found.
-#    println(e)
-#    System.exit(1)
-#} catch (IOException e) {
-#     // Assume network problem.
-#    println(e)
-#    System.exit(1)
-#}
-#
-#println(xml?.'**'?.find { it.name() == 'access' }?.text() ?: 'access not found in response.')
 
 # Upload the instruction
 ftp_script=$ftp_script_base.instruction.txt

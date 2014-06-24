@@ -19,7 +19,7 @@ do
     if [[ "$line" == \#* ]] ; then
         echo $line
     else
-        IFS=, read id access pid <<< $line
+        IFS=, read id access pid <<< "$line"
         currentStatus=$(groovy currentOrStatus.groovy "${or}/metadata/${pid}?accept=text/xml&format=xml")
         if [ "$currentStatus" == "$access" ] ; then
             echo "Success: ${line}" >> $report

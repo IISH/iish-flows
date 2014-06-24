@@ -26,7 +26,7 @@ class QuerySru {
         def xml = callSru(orAttributes.sruServer, orAttributes.query)
         String value = xml?.'**'?.find { it.@tag == orAttributes.tag }?.subfield?.find {
             it.'@code' == orAttributes.code
-        }?.text() ?: orAttributes.default
+        }?.text() ?: orAttributes.access
         println(value)
     }
 
@@ -70,7 +70,7 @@ for (int i = 0; i < args.length; i++) {
     }
 }
 
-["sruServer", "query", "tag", "code", "default"].each {
+["sruServer", "query", "tag", "code"].each {
     assert arguments[it], "Need required argument -$it [value]"
 }
 

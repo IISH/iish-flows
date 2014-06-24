@@ -1,4 +1,6 @@
 import groovy.xml.StreamingMarkupBuilder
+import org.xml.sax.SAXException
+
 import java.security.MessageDigest
 
 /**
@@ -88,12 +90,15 @@ class SorInstruction {
         assert _pid
         _pid = orAttributes.na + "/" + _pid
 
+        final String _access = getAccessStatus()
+
         return {
             stagingfile {
                 pid _pid
                 location _location
                 contentType _contentType
                 md5 _md5
+                access _access
             }
         }
     }
@@ -117,6 +122,49 @@ class SorInstruction {
         println(file.name + "\t" + md5 + "\t" + file.length() + "\t" + diff / 1000)
         md5
     }
+
+    /**
+     * getAccessStatus
+     *
+     * Retrieves the access from the public SRU service
+     */
+    private String getAccessStatus() {
+
+        def xml = callSru(orAttributes.sruServer, orAttributes.query)
+        xml?.'**'?.find { it.@tag == orAttributes.tag }?.subfield?.find {
+            it.'@code' == orAttributes.code
+        }?.text() ?: orAttributes.default
+    }
+
+    /**
+     * callSru
+     *
+     * Ask for a record and return the 001 field.
+     *
+     * @param pid
+     * @return
+     */
+    private static def callSru(String sruServer, String query) {
+
+        def sb = new StringBuilder(sruServer)
+                .append('?query=')
+                .append(URLEncoder.encode(query, 'UTF-8'))
+                .append('&version=1.1')
+                .append('&operation=searchRetrieve')
+                .append('&recordSchema=info:srw/schema/1/marcxml-v1.1')
+                .append('&maximumRecords=1')
+                .append('&startRecord=1')
+                .append('&resultSetTTL=0')
+                .append('&recordPacking=xml')
+
+        try {
+            new XmlSlurper().parse(sb.toString())
+        } catch (IOException e) {
+            println(e.message)
+        } catch (SAXException e) {
+            println(e.message)
+        }
+    }
 }
 
 
@@ -127,7 +175,7 @@ for (int i = 0; i < args.length; i++) {
     }
 }
 
-["fileSet", "na"].each {
+["fileSet", "na", "sruServer", "query", "tag", "code", "default"].each {
     assert arguments[it], "Need required argument -$it [value]"
 }
 

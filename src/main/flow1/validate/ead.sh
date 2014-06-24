@@ -18,7 +18,7 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?><list>" > $archiveIDs
 
 while read line
 do
-    IFS=, read objnr ID master jpeg volgnr PID <<< $line
+    IFS=, read objnr ID master jpeg volgnr PID <<< "$line"
     if [[ $volgnr == 1 ]] ; then
         echo "<item>$ID</item>" >> $archiveIDs
     fi
