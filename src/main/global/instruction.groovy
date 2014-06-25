@@ -21,6 +21,8 @@ class SorInstruction {
     private def mimeRepository = [:]
     private MessageDigest digest = MessageDigest.getInstance("MD5")
     private boolean recurse = false
+    private static access_stati = ['open', 'restricted', 'closed', 'irsh']
+    private static String ACCESS_DEFAULT = 'closed'
 
     public SorInstruction(def args) {
         orAttributes = args
@@ -131,9 +133,15 @@ class SorInstruction {
     private String getAccessStatus() {
 
         def xml = callSru(orAttributes.sruServer, orAttributes.query)
-        xml?.'**'?.find { it.@tag == orAttributes.tag }?.subfield?.find {
+        String access = xml?.'**'?.find { it.@tag == orAttributes.tag }?.subfield?.find {
             it.'@code' == orAttributes.code
-        }?.text() ?: orAttributes.default
+        }?.text() ?: ACCESS_DEFAULT
+
+        if (!(access in access_stati)) {
+            access = ACCESS_DEFAULT
+        }
+
+        access
     }
 
     /**
@@ -175,7 +183,7 @@ for (int i = 0; i < args.length; i++) {
     }
 }
 
-["fileSet", "na", "sruServer", "query", "tag", "code", "default"].each {
+["fileSet", "na", "sruServer", "query", "tag", "code"].each {
     assert arguments[it], "Need required argument -$it [value]"
 }
 

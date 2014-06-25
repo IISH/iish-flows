@@ -24,16 +24,12 @@ if [[ $rc != 0 ]] ; then
 fi
 
 # Produce instruction
-groovy $(cygpath --windows "$global_home/instruction.groovy") -na $na -fileSet "$fileSet_windows" -access $flow_access -tag 542 -code m -autoIngestValidInstruction $flow_autoIngestValidInstruction -label "$archiveID $flow_client" -action upsert -notificationEMail $flow_notificationEMail -recurse true>>$log
+groovy $(cygpath --windows "$global_home/instruction.groovy") -na $na -fileSet "$fileSet_windows" -access $flow_access -sruServer $sru -tag 542 -code m -autoIngestValidInstruction $flow_autoIngestValidInstruction -label "$archiveID $flow_client" -action upsert -notificationEMail $flow_notificationEMail -recurse true>>$log
 rc=$?
 if [[ $rc != 0 ]] ; then
     echo "Problem when creating the instruction.">>$log
     exit -1
 fi
-
-# For each stagingfile in the instruction, replace the access value with the value from the public OAI2 service
-groovy set_access.groovy -instruction file_instruction -or $sruServer
-
 
 # Upload the instruction
 ftp_script=$ftp_script_base.instruction.txt
