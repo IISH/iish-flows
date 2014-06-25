@@ -19,59 +19,26 @@ from=$(groovy -e "def format = 'yyyy-MM-dd' ; def date = Date.parse(format, '$da
 file_access=$work/access.txt
 groovy oai2harvester.groovy -na $na -baseURL $oai -verb ListRecords -set $flow5_set -from $from -metadataPrefix marcxml > $file_access
 
-# Filter out from access.txt a new file access_exist. It will conly contain references if the pid values exist in the
-# object repository and the access status differs.
+# create instruction header:
 count=0
-file_access_exist=$work/access_exist.txt
-rm $file_access_exist
+rm $file_instruction
+echo "<instruction xmlns='http://objectrepository.org/instruction/1.0/' access='$flow_access' autoIngestValidInstruction='$flow_autoIngestValidInstruction' label='$archiveID $flow_client' action='upsert' notificationEMail='$flow_notificationEMail' plan='StagingfileIngestMaster'>" > $file_instruction
 while read line
 do
     if [[ "$line" == \#* ]] ; then
         echo $line
     else
         IFS=, read id access pid <<< "$line"
-        # These are the current access policy settings in use by the object repository.
-        case "$currentStatus" in
-            open)
-                echo $line >> $file_access_exist
-                count=$((count + 1))
-                ;;
-            restricted)
-                echo $line >> $file_access_exist
-                count=$((count + 1))
-                ;;
-            closed)
-                echo $line >> $file_access_exist
-                count=$((count + 1))
-                ;;
-            minimal)
-                echo $line >> $file_access_exist
-                count=$((count + 1))
-                ;;
-            irsh)
-                echo $line >> $file_access_exist
-                count=$((count + 1))
-                ;;
-            *)
-                echo "Not updating ${line} because of an unknown status: ${currentStatus}" >> $log
-                ;;
-        esac
+        count=$((count + 1))
+        echo "<stagingfile><pid>${pid}</pid><access>${access}</access><embargo>null</embargo><embargoAccess>null</embargoAccess><contentType>null</contentType><objid>null</objid><seq>0</seq><label>null</label></stagingfile>" >> $file_instruction
     fi
-done < $file_access
+done < $file_access_exist
+echo "</instruction>" >> $file_instruction
 
 if [[ $count == 0 ]] ; then
     echo "Nothing to upload as the count was zero." >> $log
     exit 0
 fi
-
-# create instruction header:
-echo "<instruction xmlns='http://objectrepository.org/instruction/1.0/' access='$flow_access' autoIngestValidInstruction='$flow_autoIngestValidInstruction' label='$archiveID $flow_client' action='upsert' notificationEMail='$flow_notificationEMail' plan='StagingfileIngestMaster'>" > $file_instruction
-while read line
-do
-    IFS=, read id access pid <<< "$line"
-    echo "<stagingfile><pid>${pid}</pid><access>${access}</access><embargo>-1</embargo><embargoAccess>-1</embargoAccess><contentType>-1</contentType><objid>-1</objid><seq>-1</seq><label>-1</label></stagingfile>" >> $file_instruction
-done < $file_access_exist
-echo "</instruction>" >> $file_instruction
 
 ftp_script=$ftp_script_base.instruction.txt
 $global_home/ftp.sh "$ftp_script" "put $fileSet_windows\instruction.xml $archiveID/instruction.xml" "$log"

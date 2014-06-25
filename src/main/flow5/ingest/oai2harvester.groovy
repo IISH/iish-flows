@@ -17,6 +17,7 @@ class Oai2Harvester {
     private def required = ['na', 'baseURL', 'verb']
     private static String ACCESS_DEFAULT = 'closed'
     private static int PAUSE_SECONDS = 10
+    private access_stati = ['open', 'restricted', 'closed', 'irsh']
 
     public Oai2Harvester(def args) {
         orAttributes = args
@@ -96,6 +97,7 @@ class Oai2Harvester {
      * @param record
      */
     void record(def record) {
+
         // Get the identifier
         String cf_001 = record.controlfield?.find {
             it.'@tag' == '001'
@@ -108,17 +110,23 @@ class Oai2Harvester {
             it.'@code' == 'm'
         }?.text()) ?: ACCESS_DEFAULT
 
-        // Get the barcodes ( they start with 30051 and have 14 digits ).
-        def barcodes = record.datafield?.inject([]) { visitor, it ->
-            def subfield = it.subfield?.find { it.'@code' == 'p' && it.text() =~/^30051\d{9}/ }
-            if (subfield)
-                visitor << orAttributes.na + '/' + subfield.text()
-            visitor
-        }
+        if ( df_542m in access_stati ) {
 
-        // 001 542$m barcode
-        barcodes?.each {
-            println(cf_001 + ',' + df_542m + ',' + it)
+            // Get the barcodes ( they start with 30051 and have 14 digits ).
+            def barcodes = record.datafield?.inject([]) { visitor, it ->
+                def subfield = it.subfield?.find { it.'@code' == 'p' && it.text() =~ /^30051\d{9}/ }
+                if (subfield)
+                    visitor << orAttributes.na + '/' + subfield.text()
+                visitor
+            }
+
+            // 001 542$m barcode
+            records++
+            barcodes?.each {
+                println(cf_001 + ',' + df_542m + ',' + it)
+            }
+        } else {
+            message(df_542m + ' is not a known access status value.')
         }
     }
 
