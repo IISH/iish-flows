@@ -20,22 +20,24 @@ file_access=$work/access.txt
 groovy oai2harvester.groovy -na $na -baseURL $oai -verb ListRecords -set $flow5_set -from $from -metadataPrefix marcxml > $file_access
 
 # create instruction header:
+echo "Creating instruction from ${file_access}" >> $log
 count=0
 rm $file_instruction
 echo "<instruction xmlns='http://objectrepository.org/instruction/1.0/' access='$flow_access' autoIngestValidInstruction='$flow_autoIngestValidInstruction' label='$archiveID $flow_client' action='upsert' notificationEMail='$flow_notificationEMail' plan='StagingfileIngestMaster'>" > $file_instruction
 while read line
 do
     if [[ "$line" == \#* ]] ; then
-        echo $line
+        echo $line >> $log
     else
         IFS=, read id access pid <<< "$line"
         count=$((count + 1))
         echo "<stagingfile><pid>${pid}</pid><access>${access}</access><embargo>null</embargo><embargoAccess>null</embargoAccess><contentType>null</contentType><objid>null</objid><seq>0</seq><label>null</label></stagingfile>" >> $file_instruction
     fi
-done < $file_access_exist
+done < $file_access
 echo "</instruction>" >> $file_instruction
 
 if [[ $count == 0 ]] ; then
+    rm $file_instruction
     echo "Nothing to upload as the count was zero." >> $log
     exit 0
 fi
