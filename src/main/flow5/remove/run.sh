@@ -9,11 +9,12 @@
 source $FLOWS_HOME/src/main/global/setup.sh $0 "$@"
 
 report=$work/report.txt
-file_access_exist=$fileset/.ingest/access_exist.txt
-if [ ! -f $file_access_exist ] ; then
+file_access=$fileset/.ingest/access.txt
+if [ ! -f $file_access ] ; then
     echo "Nothing to do." >> $report
 fi
 
+echo $fileSet > $report
 while read line
 do
     if [[ "$line" == \#* ]] ; then
@@ -24,7 +25,7 @@ do
         if [ "$currentStatus" == "$access" ] ; then
             echo "Success: ${line}" >> $report
         else
-            echo "Failed: ${line}" >> $report
+            echo "Fail: ${currentStatus} ${line}" >> $report
         fi
     fi
 done < $file_access

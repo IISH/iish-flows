@@ -46,9 +46,9 @@ def readInstruction(File instruction, def good, def bad, def arguments) {
     while (xsr.hasNext()) {
         int next = xsr?.next()
         if (next == XMLStreamReader.START_ELEMENT && xsr.localName.contains("stagingfile")) {
-            // example <pid>10622/30000000000000</pid><location>/2013-02-12/30051/30000000000000.tif</location><contentType>text/plain</contentType><md5>b0fcc7b9968168c4e31b90ebceb52932</md5>
+            // example <pid>10622/12345</pid><location>/2013-02-12/30051/30000000000000.tif</location><contentType>text/plain</contentType><md5>b0fcc7b9968168c4e31b90ebceb52932</md5>
             def l = [:]
-            ['pid', 'location', 'contentType', 'md5'].each {
+            ['pid', 'location', 'contentType', 'md5', 'access'].each {
                 xsr.next()
                 l[it] = xsr.getElementText()
                 assert l[it], "Must have a $it key with a value that is not null"
@@ -63,7 +63,17 @@ def readInstruction(File instruction, def good, def bad, def arguments) {
     }
 }
 
+/**
+ * inSor
+ *
+ * Check availability, the md5 and the access status
+ *
+ * @param l
+ * @param arguments
+ * @return
+ */
 def inSor(def l, def arguments) {
+
     String url = "${arguments.or}/metadata/$l.pid?accept=text/xml&format=xml"
     def xml = null
     try {
@@ -71,6 +81,7 @@ def inSor(def l, def arguments) {
     } catch (Exception e) {
         println(e)
     }
+
     def md5 = xml?.'**'?.find { it.name() == 'md5' }?.text()
     compare(md5, l.md5)
 }

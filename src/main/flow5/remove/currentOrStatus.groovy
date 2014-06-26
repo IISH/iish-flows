@@ -11,13 +11,13 @@ def xml = null
 try {
     xml = new XmlSlurper().parse(url)
 } catch (SAXException e) {
-    // Assume a file not found.
-    println(e)
-    System.exit(1)
+    // Assume a file not found. Not correctly displaying here.
+    println('404')
+    System.exit(0)
 } catch (IOException e) {
      // Assume network problem.
     println(e)
     System.exit(1)
 }
 
-println(xml?.'**'?.find { it.name() == 'access' }?.text() ?: 'access not found in response.')
+println(xml?.'**'?.find { it.name() == 'access' }?.text() ?: '404')
