@@ -7,14 +7,14 @@
 # Usage: ftp.sh [script name] [put command] [log file]
 ftp_script=$1
 put=$2
-log=$3
-source $FLOWS_HOME/config.sh
+ftp_connection=$3
+log=$4
 
 echo "option batch continue">$ftp_script
 echo "option confirm off">>$ftp_script
 echo "option transfer binary">>$ftp_script
 echo "option reconnecttime 5">>$ftp_script
-echo "open $flow_ftp_connection">>$ftp_script
+echo "open ${ftp_connection} -explicittls -passive">>$ftp_script
 echo "$put">>$ftp_script
 echo "close">>$ftp_script
 echo "exit">>$ftp_script

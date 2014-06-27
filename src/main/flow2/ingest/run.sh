@@ -17,7 +17,7 @@ fi
 
 # Upload the files
 ftp_script=$ftp_script_base.files.txt
-$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|.*/\" $fileSet_windows $archiveID" "$log"
+$global_home/ftp.sh "$ftp_script" "synchronize remote -mirror -filemask=\"|.*/\" $fileSet_windows $archiveID" "$flow_ftp_connection" "$log"
 rc=$?
 if [[ $rc != 0 ]] ; then
     exit -1
@@ -33,7 +33,7 @@ fi
 
 # Upload the instruction
 ftp_script=$ftp_script_base.instruction.txt
-$global_home/ftp.sh "$ftp_script" "put $fileSet_windows\instruction.xml $archiveID/instruction.xml" "$log"
+$global_home/ftp.sh "$ftp_script" "put $fileSet_windows\instruction.xml $archiveID/instruction.xml" "$flow_ftp_connection" "$log"
 rc=$?
 if [[ $rc != 0 ]] ; then
     exit -1
