@@ -139,7 +139,7 @@ class SorInstruction {
         }?.text() ?: null
 
         if (!(access in access_stati)) {
-            println("Warn: access status unknown or not valid:s ${access}")
+            println("Warn: access status unknown or not valid: '${access}'")
             access = ACCESS_DEFAULT
         }
 
