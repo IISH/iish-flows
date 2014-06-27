@@ -88,11 +88,11 @@ class SorInstruction {
         files++
         String _location = folder + "/" + f.name
 
-        String _pid = f.name.replaceFirst(~/\.[^\.]+$/, '').toUpperCase() // we make the PID the file name
-        assert _pid
-        _pid = orAttributes.na + "/" + _pid
+        String barcode = f.name.replaceFirst(~/\.[^\.]+$/, '').toUpperCase() // we make the PID the file name
+        assert barcode
+        String _pid = orAttributes.na + "/" + barcode
 
-        final String _access = getAccessStatus("marc.852\$p=\"${_pid}\"")
+        final String _access = getAccessStatus("marc.852\$p=\"${barcode}\"")
         println('\t' + _access)
 
         return {
