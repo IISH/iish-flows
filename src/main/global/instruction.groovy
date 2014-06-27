@@ -93,6 +93,7 @@ class SorInstruction {
         _pid = orAttributes.na + "/" + _pid
 
         final String _access = getAccessStatus("marc.852\$p=\"${_pid}\"")
+        println('\t' + _access)
 
         return {
             stagingfile {
@@ -121,7 +122,7 @@ class SorInstruction {
         def md5 = bigInt.toString(16)
         Date end = new Date()
         long diff = end.getTime() - start.getTime()
-        println(file.name + "\t" + md5 + "\t" + file.length() + "\t" + diff / 1000)
+        print(file.name + '\t' + md5 + '\t' + file.length() + '\t' + diff / 1000)
         md5
     }
 
