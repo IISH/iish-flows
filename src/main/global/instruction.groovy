@@ -136,9 +136,10 @@ class SorInstruction {
         def xml = callSru(orAttributes.sruServer, query)
         String access = xml?.'**'?.find { it.@tag == orAttributes.tag }?.subfield?.find {
             it.'@code' == orAttributes.code
-        }?.text() ?: ACCESS_DEFAULT
+        }?.text() ?: null
 
         if (!(access in access_stati)) {
+            println("Warn: access status unknown or not valid:s ${access}")
             access = ACCESS_DEFAULT
         }
 
