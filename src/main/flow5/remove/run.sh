@@ -15,6 +15,7 @@ if [ ! -f $file_access ] ; then
 fi
 
 echo $fileSet > $report
+count=0
 while read line
 do
     if [[ "$line" == \#* ]] ; then
@@ -25,14 +26,20 @@ do
         if [ "$currentStatus" == "$access" ] ; then
             echo "Success: ${line}" >> $report
         else
-            echo "Fail: ${currentStatus} ${line}" >> $report
+            if [ "$currentStatus" == "404" ] ; then
+                echo "Ignore: ${currentStatus} ${line}" >> $report
+            else
+                count=$((count + 1))
+                echo "Fail: ${currentStatus} ${line}" >> $report
+            fi
         fi
     fi
 done < $file_access
 
 groovy -cp "$(cygpath --windows "$HOMEPATH\.m2\repository\javax\mail\javax.mail-api\1.5.0\javax.mail-api-1.5.0.jar");$(cygpath --windows "$HOMEPATH\.m2\repository\javax\mail\mail\1.4.7\mail-1.4.7.jar")" $(cygpath --windows "$global_home/mail.groovy") $(cygpath --windows "$report") $flow_client "$flow_notificationEMail" "Dagelijkste Sor access status updates." $mailrelay >> $log
 
-history="$(dirname $fileSet)/.history"
-mkdir -p $history
-mv $fileSet $history
-
+if [[ $count == 0 ]] ; then
+    history="$(dirname $fileSet)/.history"
+    mkdir -p $history
+    mv $fileSet $history
+fi

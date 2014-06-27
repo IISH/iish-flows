@@ -14,7 +14,7 @@ echo "option batch continue">$ftp_script
 echo "option confirm off">>$ftp_script
 echo "option transfer binary">>$ftp_script
 echo "option reconnecttime 5">>$ftp_script
-echo "open $FTP_CONNECTION">>$ftp_script
+echo "open $flow_ftp_connection">>$ftp_script
 echo "$put">>$ftp_script
 echo "close">>$ftp_script
 echo "exit">>$ftp_script
