@@ -23,14 +23,14 @@ do
     else
         IFS=, read id access pid <<< "$line"
         currentStatus=$(groovy currentOrStatus.groovy "${or}/metadata/${pid}?accept=text/xml&format=xml")
-        if [ "$currentStatus" == "$access" ] ; then
+        if [[ "$currentStatus" == "$access" ]] ; then
             echo "Success: ${line}" >> $report
         else
-            if [ "$currentStatus" == "404" ] ; then
+            if [[ "$currentStatus" == "404" ]] ; then
                 echo "Ignore: ${currentStatus} ${line}" >> $report
             else
                 count=$((count + 1))
-                echo "Fail: ${currentStatus} ${line}" >> $report
+                echo "Fail: got '${currentStatus}' but expect '${access}' ${line}" >> $report
             fi
         fi
     fi
