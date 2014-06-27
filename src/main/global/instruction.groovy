@@ -92,7 +92,7 @@ class SorInstruction {
         assert _pid
         _pid = orAttributes.na + "/" + _pid
 
-        final String _access = getAccessStatus()
+        final String _access = getAccessStatus("marc.852\$p=\"${_pid}\"")
 
         return {
             stagingfile {
@@ -130,9 +130,9 @@ class SorInstruction {
      *
      * Retrieves the access from the public SRU service
      */
-    private String getAccessStatus() {
+    private String getAccessStatus(String query) {
 
-        def xml = callSru(orAttributes.sruServer, orAttributes.query)
+        def xml = callSru(orAttributes.sruServer, query)
         String access = xml?.'**'?.find { it.@tag == orAttributes.tag }?.subfield?.find {
             it.'@code' == orAttributes.code
         }?.text() ?: ACCESS_DEFAULT
@@ -183,7 +183,7 @@ for (int i = 0; i < args.length; i++) {
     }
 }
 
-["fileSet", "na", "sruServer", "query", "tag", "code"].each {
+["fileSet", "na", "sruServer", "tag", "code"].each {
     assert arguments[it], "Need required argument -$it [value]"
 }
 
