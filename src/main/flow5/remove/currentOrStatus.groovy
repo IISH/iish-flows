@@ -12,12 +12,12 @@ try {
     xml = new XmlSlurper().parse(url)
 } catch (SAXException e) {
     // Assume a file not found. Not correctly displaying here.
-    println('404')
+    print('404')
     System.exit(0)
 } catch (IOException e) {
      // Assume network problem.
-    println(e)
+    print(e)
     System.exit(1)
 }
 
-println(xml?.'**'?.find { it.name() == 'access' }?.text() ?: '404')
+print(xml?.'**'?.find { it.name() == 'access' }?.text() ?: '404')
