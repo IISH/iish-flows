@@ -42,4 +42,6 @@ if [[ $count == 0 ]] ; then
     history="$(dirname $fileSet)/.history"
     mkdir -p $history
     mv $fileSet $history
+else
+    echo "There were ${count} failures" >> $log
 fi

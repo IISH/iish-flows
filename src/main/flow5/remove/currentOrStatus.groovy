@@ -20,4 +20,4 @@ try {
     System.exit(1)
 }
 
-print(xml?.'**'?.find { it.name() == 'access' }?.text()?.trim() ?: '404')
+print(xml?.'**'?.find { it.name() == 'access' }?.text() ?: '404')
