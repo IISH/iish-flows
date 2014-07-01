@@ -11,13 +11,13 @@ source $FLOWS_HOME/src/main/global/setup.sh $0 "$@"
 report=$work/report.txt
 file_access=$fileSet/.ingest/access.txt
 if [ ! -f $file_access ] ; then
-    echo "Nothing to do." >> $report
+    echo "Nothing to do." >> $log
 	exit 0
 fi
 
 file_done=$fs_parent/.ingest/done.txt
 if [ ! -f $file_done ] ; then
-	echo "Nothing to do." >> $report
+	echo "Nothing to do." >> $log
 	exit 0
 fi
 
