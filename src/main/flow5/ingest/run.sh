@@ -41,6 +41,7 @@ echo "</instruction>" >> $file_instruction
 if [[ $count == 0 ]] ; then
     rm $file_instruction
     echo "Nothing to upload as the count was zero." >> $log
+	touch $work/done.txt
     exit 0
 fi
 
