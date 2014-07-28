@@ -24,7 +24,7 @@ lastpid=""
 while read line
 do
     IFS=, read objnr ID master jpeg volgnr PID <<< "$line"
-    if [[ $volgnr == 2 ]]; then
+    if [[ $volgnr -eq 2 ]]; then
         lastpid=$PID
         objid=$na/$archiveID.$ID
         soapenv="<?xml version='1.0' encoding='UTF-8'?>  \
@@ -43,7 +43,6 @@ do
                                     <pid:location weight='0' href='$or/file/level1/$PID' view='level1'/> \
                                     <pid:location weight='0' href='$or/file/level2/$PID' view='level2'/> \
                                     <pid:location weight='0' href='$or/file/level3/$PID' view='level3'/> \
-                                    <pid:location weight='0' href='$or/file/level4/$PID' view='level4'/> \
                                 </pid:locAtt> \
                         </pid:handle> \
                     </pid:UpsertPidRequest> \
@@ -83,8 +82,7 @@ done < $cf
 								<pid:location weight='0' href='$or/file/master/$lastpid' view='master'/> \
 								<pid:location weight='0' href='$or/file/level1/$lastpid' view='level1'/> \
 								<pid:location weight='0' href='$or/file/level2/$lastpid' view='level2'/> \
-								<pid:location weight='0' href='$or/file/level3/$lastpid' view='level3'/>
-								<pid:location weight='0' href='$or/file/level4/$lastpid' view='level4'/>
+								<pid:location weight='0' href='$or/file/level3/$lastpid' view='level3'/> \
 							</pid:locAtt> \
 					</pid:handle> \
 				</pid:UpsertPidRequest> \
