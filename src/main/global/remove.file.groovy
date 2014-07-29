@@ -13,6 +13,8 @@ assert arguments.or, "Expect -or argument: base url of the object repository"
 assert arguments.file, "Expect -file argument: full path of the instruction file"
 assert arguments.access_token, "Expect -access_token argument: object repository webservice key"
 
+println("Arguments: " + arguments)
+
 File instruction = new File(arguments.file)
 assert instruction.exists()
 
@@ -20,7 +22,7 @@ def good = []
 def bad = []
 readInstruction(instruction, good, bad, arguments)
 
-if ( !bad && !good )
+if (!bad && !good)
     println('No files.')
 
 if (bad) {
@@ -41,20 +43,26 @@ if (good) {
 
 def readInstruction(File instruction, def good, def bad, def arguments) {
 
+    final String stagingfile = "stagingfile"
     final XMLInputFactory xif = XMLInputFactory.newInstance()
     final XMLStreamReader xsr = xif.createXMLStreamReader(instruction.newReader())
     while (xsr.hasNext()) {
         int next = xsr?.next()
-        if (next == XMLStreamReader.START_ELEMENT && xsr.localName.contains("stagingfile")) {
+
+        if (next == XMLStreamReader.START_ELEMENT && xsr.localName.contains(stagingfile)) {
             // example <pid>10622/12345</pid><location>/2013-02-12/30051/30000000000000.tif</location><contentType>text/plain</contentType><md5>b0fcc7b9968168c4e31b90ebceb52932</md5>
+
+
             def l = [:]
-            ['pid', 'location', 'contentType', 'md5', 'access'].each {
-                xsr.next()
-                l[it] = xsr.getElementText()
-                assert l[it], "Must have a $it key with a value that is not null"
+            while (xsr.hasNext() && !(xsr.next() == XMLStreamReader.END_ELEMENT && xsr.localName.contains(stagingfile))) {
+                if (xsr.startElement) {
+                    String name = xsr.getLocalName()
+                    l.put(name, xsr.getElementText())
+                }
             }
+
             if (inSor(l, arguments)) {
-                if ( Boolean.parseBoolean(arguments.delete) )
+                if (Boolean.parseBoolean(arguments.delete))
                     new File(instruction.parentFile.parentFile, l.location).delete()
                 good << "http://hdl.handle.net/$l.pid?locatt=view:level2&urlappend=%3Faccess_token%3D" + arguments.access_token
             } else {
