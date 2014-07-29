@@ -14,6 +14,8 @@ if [ -f "$file_instruction" ] ; then
 	exit 0
 fi
 
+rm $work/done.txt
+
 # Harvest and create a list of updates. We harvest everything from the last 5 days.
 from=$(groovy -e "def format = 'yyyy-MM-dd' ; def date = Date.parse(format, '$datestamp').minus(5) ; print(date.format(format))")
 file_access=$work/access.txt
@@ -39,6 +41,7 @@ echo "</instruction>" >> $file_instruction
 if [[ $count == 0 ]] ; then
     rm $file_instruction
     echo "Nothing to upload as the count was zero." >> $log
+	touch $work/done.txt
     exit 0
 fi
 
@@ -48,5 +51,7 @@ rc=$?
 if [[ $rc != 0 ]] ; then
     exit -1
 fi
+
+touch $work/done.txt
 
 exit 0
