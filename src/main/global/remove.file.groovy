@@ -54,7 +54,8 @@ def readInstruction(File instruction, def good, def bad, def arguments) {
                 assert l[it], "Must have a $it key with a value that is not null"
             }
             if (inSor(l, arguments)) {
-                new File(instruction.parentFile.parentFile, l.location).delete()
+                if ( Boolean.parseBoolean(arguments.delete) )
+                    new File(instruction.parentFile.parentFile, l.location).delete()
                 good << "http://hdl.handle.net/$l.pid?locatt=view:level2&urlappend=%3Faccess_token%3D" + arguments.access_token
             } else {
                 bad << "$l.pid not in the object repository."
