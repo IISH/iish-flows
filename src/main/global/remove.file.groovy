@@ -25,20 +25,16 @@ readInstruction(instruction, good, bad, arguments)
 if (!bad && !good)
     println('No files.')
 
-if (bad) {
-    println(bad.size + " mislukt:")
-    bad.each {
-        println(it)
-    }
+println(bad.size + " mislukt:")
+bad.each {
+    println(it)
 }
 
 println();
 
-if (good) {
-    println(good.size + " gelukt:")
-    good.each {
-        println(it)
-    }
+println(good.size + " gelukt:")
+good.each {
+    println(it)
 }
 
 def readInstruction(File instruction, def good, def bad, def arguments) {
