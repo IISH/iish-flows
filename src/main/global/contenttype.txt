@@ -1,3 +1,4 @@
+xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
 iso,application/x-iso-image
 pyc,application/x-bytecode.python
 dwg,application/acad
