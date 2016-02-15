@@ -22,11 +22,13 @@ class SorInstruction {
         println(orAttributes)
 
         final file = new File(orAttributes.fileSet)
+        orAttributes.access = orAttributes.access ?: 'open'
         orAttributes.archivalID = file.name
         orAttributes.na = file.parentFile.name
     }
 
     void start() {
+        def defaultAccess = getCustom(new File(orAttributes.fileSet, '.access.txt'))
 
         final fileSetFolder = new File(orAttributes.fileSet)
         def file = new File(fileSetFolder, "instruction.xml")
@@ -60,7 +62,7 @@ class SorInstruction {
                                     pid(split[5])
                                     location(split[2])
                                     md5(_md5)
-                                    if (_access) access(_access)
+                                    (_access) ? access(_access) : access(defaultAccess)
                                     objid(_objid)
                                     seq(split[4])
                                 }
@@ -78,6 +80,7 @@ class SorInstruction {
                 return it.trim()
             }
         }
+        orAttributes.access
     }
 
     // taken from http://snipplr.com/view/8308/

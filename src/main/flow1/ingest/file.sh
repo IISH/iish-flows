@@ -15,7 +15,7 @@ if [[ ! -d $fileSet/Tiff ]] ; then
 	echo "Expecting the folder $fileSet/Tiff"
 	echo "Stopping procedure."
 	exit -1
-fi 
+fi
 
 # Upload the files
 ftp_script=$work/$archiveID.txt
