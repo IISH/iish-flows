@@ -25,4 +25,5 @@ fi
 
 source ./file.sh
 source ../pid/run.sh
-source ./ead.sh
+
+exit 0
