@@ -26,4 +26,6 @@ fi
 source ./file.sh
 source ../pid/run.sh
 
+echo "I think we are done." >> $log
+
 exit 0
