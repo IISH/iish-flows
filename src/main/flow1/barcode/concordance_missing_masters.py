@@ -65,8 +65,8 @@ def create_master_file(fileset, master, jpeg):
         print('Skipping ' + master_file + ' because the master file already exists.')
     else:
         print('converting')
-        #exit_code = os.system('convert -compress none ' + fileset + jpeg_path + ' ' + master_file)
-        if False: #exit_code != 0:
+        exit_code = os.system('convert -compress none ' + fileset + jpeg_path + ' ' + master_file)
+        if exit_code != 0:
             print('Error during conversion of ' + jpeg + ' to ' + master)
             os.remove(master_file)  # undo failed attempt.
             exit(exit_code)
